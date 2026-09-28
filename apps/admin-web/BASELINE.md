@@ -1,4 +1,20 @@
-# BASELINE.md — Phase 0 冻结基线
+# BASELINE.md — Chatlog Enterprise 基线
+
+> 建立时间：2026-09-28（本地时区）
+> 规格依据：`Chatlog-Enterprise-全平台开发技术规格-v1.0.md`
+
+## Phase 1（Monorepo）记录
+
+- 2026-09-28 完成 Phase 1：现有 Web 整体迁入 `apps/admin-web/`（`git mv` 保历史），包名 `@chatlog/admin-web`。
+- 建立根 `package.json`（npm workspaces：`apps/*`、`packages/*`），聚合 `build/lint/test/serve`。
+- 建立骨架：`apps/server`、`apps/desktop-client`、`packages/{ui,protocol,shared-types,source-contract,profile-schema}`。
+- 创建 `docs/adr/001-monorepo.md`（其余 ADR 骨架待对应 Phase 填充）。
+- **回归验证（迁移后从根 workspace）**：`npm test` 45/45 → `npm run lint` 通过 → `npm run build` 通过 → `browser-smoke.py` 29 项通过 → `browser-local.py` 36 项通过（均在 `apps/admin-web/` 内执行）。
+- 旧功能、旧测试、旧文档、License 全部保留。
+
+---
+
+## Phase 0 冻结基线
 
 > 建立时间：2026-09-28（本地时区）
 > 规格依据：`Chatlog-Enterprise-全平台开发技术规格-v1.0.md` Phase 0

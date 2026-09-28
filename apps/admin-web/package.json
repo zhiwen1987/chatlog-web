@@ -1,0 +1,72 @@
+{
+  "name": "@chatlog/admin-web",
+  "version": "1.0.0",
+  "description": "Modern Vue.js-based Chat Log Visualization and Management System",
+  "author": "Chatlog Web Team",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/sinyu1012/chatlog-web",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sinyu1012/chatlog-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sinyu1012/chatlog-web/issues"
+  },
+  "keywords": [
+    "chatlog",
+    "chat",
+    "log",
+    "analysis",
+    "visualization",
+    "vue",
+    "element-plus",
+    "echarts",
+    "dashboard",
+    "analytics"
+  ],
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint --no-fix src",
+    "test": "node --test tests/*.test.mjs",
+    "test:wcdb": "node --test tests/wcdb.test.mjs"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
+    "@vueuse/core": "^13.5.0",
+    "animate.css": "^4.1.1",
+    "axios": "^1.4.0",
+    "chart.js": "^4.5.0",
+    "cors": "^2.8.5",
+    "d3": "^7.9.0",
+    "dayjs": "^1.11.0",
+    "echarts": "^5.6.0",
+    "element-plus": "^2.3.0",
+    "express": "^5.1.0",
+    "file-saver": "^2.0.5",
+    "three": "^0.178.0",
+    "vue": "^3.3.0",
+    "vue-chartjs": "^5.3.2",
+    "vue-echarts": "^7.0.3",
+    "vue-router": "^4.2.0",
+    "vuex": "^4.0.2",
+    "@sqlite.org/sqlite-wasm": "3.53.0-build1",
+    "fzstd": "0.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/eslint-parser": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@vue/cli-plugin-eslint": "^5.0.0",
+    "@vue/cli-plugin-router": "^5.0.0",
+    "@vue/cli-plugin-vuex": "^5.0.0",
+    "@vue/cli-service": "^5.0.0",
+    "@vue/eslint-config-standard": "^8.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-import": "^2.25.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.0.0"
+  }
+}

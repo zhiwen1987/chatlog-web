@@ -1,3 +1,5 @@
+> **Monorepo 说明**：本目录为 Chatlog Enterprise 的 Web 管理端（`@chatlog/admin-web`），已从 `chatlog-web/` 整体迁入 `apps/admin-web/`。功能与文档保持不变。
+
 <div align="center">
   <img src="public/brand/logo.svg" width="64" alt="Chatlog" />
   <h1>Chatlog Web</h1>
