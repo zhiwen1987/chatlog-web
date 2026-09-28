@@ -12,6 +12,18 @@
 - **回归验证（迁移后从根 workspace）**：`npm test` 45/45 → `npm run lint` 通过 → `npm run build` 通过 → `browser-smoke.py` 29 项通过 → `browser-local.py` 36 项通过（均在 `apps/admin-web/` 内执行）。
 - 旧功能、旧测试、旧文档、License 全部保留。
 
+## Phase 2（Server Foundation）记录
+
+- 2026-09-28 完成 Phase 2：Go Modular Monolith 服务端 `apps/server/`。
+- **结构**：`cmd/server`（入口）、`internal/{config,db,migration,auth,audit,handler,model}`。
+- **Migration**：`internal/migration/sql/001_initial.sql`（embed 内嵌，`schema_migrations` 幂等），覆盖规格 §10-19 全部核心表 + RLS + pg_trgm。
+- **功能**：Tenant/User/RBAC/Device/SourceAccount/Health/Audit 均已实现。
+- **Docker Compose**：`deploy/docker-compose.yml` 一键 `docker compose up -d`（PostgreSQL 16 + MinIO + Server）验证通过。
+- **环境适配**：本机 Intel Mac（x86_64，BASELINE 旧记录 arm64 有误）；Go 1.26.0（依赖要求）、Rust 1.98.1 已装。
+- **API 验证**：注册→登录→me→tenants→users→devices→sources→audit 全链路通过；无 token 401、错密码 401、RBAC 角色校验生效。
+- **Go 测试**：`go test ./...` 全部通过（auth、config、handler 集成、migration 集成）。
+- 填 ADR-003（postgresql）、ADR-002（desktop-tauri 决策待 Phase 5 详述）。
+
 ---
 
 ## Phase 0 冻结基线

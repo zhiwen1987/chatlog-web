@@ -1,0 +1,63 @@
+# Chatlog Enterprise — Docker Compose 一键部署（规格 §115）
+# 用法：cp .env.example .env && docker compose up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: chatlog-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-chatlog}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chatlog}
+      POSTGRES_DB: ${POSTGRES_DB:-chatlog}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chatlog} -d ${POSTGRES_DB:-chatlog}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  minio:
+    image: alpine/minio:latest-release
+    container_name: chatlog-minio
+    user: "0:0"
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-chatlog}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-chatlog-secret}
+    volumes:
+      - miniodata:/data
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  server:
+    build:
+      context: ../apps/server
+    container_name: chatlog-server
+    environment:
+      CHATLOG_ADDR: :8080
+      DATABASE_URL: postgres://${POSTGRES_USER:-chatlog}:${POSTGRES_PASSWORD:-chatlog}@postgres:5432/${POSTGRES_DB:-chatlog}?sslmode=disable
+      CHATLOG_JWT_SECRET: ${CHATLOG_JWT_SECRET:-dev-secret-change-me}
+      CHATLOG_AUDIT_ENABLED: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  miniodata:
