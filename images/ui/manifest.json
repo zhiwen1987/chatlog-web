@@ -1,6 +1,6 @@
 {
   "fictional": true,
-  "sourceCommit": "776fe565ca03e7cd1d41c81fb5cf6ef5c5cc50ae",
+  "sourceCommit": "local",
   "renderer": "production dist / Playwright Chromium",
   "clock": "2026-09-23T11:00:00+08:00",
   "checks": [
