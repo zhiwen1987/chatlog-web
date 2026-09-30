@@ -68,3 +68,11 @@ test('reconcile rejects deleting/deleted states (only stored confirms receipt)',
   const ok = m.reconcile(receipt, { ...manifest, state: 'stored' });
   assert.equal(ok.ok, true);
 });
+
+test('manifest accepts only the four media types', () => {
+  assert.deepEqual(m.manifestErrors({ ...manifest, media_type: 'image' }), []);
+  assert.deepEqual(m.manifestErrors({ ...manifest, media_type: 'video' }), []);
+  assert.deepEqual(m.manifestErrors({ ...manifest, media_type: 'audio' }), []);
+  assert.deepEqual(m.manifestErrors({ ...manifest, media_type: 'file' }), []);
+  assert.ok(m.manifestErrors({ ...manifest, media_type: 'gif' }).some((e) => e.includes('media_type')));
+});
