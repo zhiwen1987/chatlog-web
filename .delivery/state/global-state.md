@@ -75,3 +75,21 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - desktop-client heartbeat.rs：async heartbeat + build_heartbeat_url + 2 单测（lib 2/2 PASS）
 - Cargo.toml 声明 reqwest；Cargo.lock 首次提交；tauri icon 补全图标集（修骨架缺图标）
 - cargo check OK；全量 cargo test 因 Tauri 链接极慢未跑（--lib 隔离已验心跳）
+
+## W32 JWS license 验签/签发闭环（2026-09-30 20:27，main 2854700）
+- auth/claims_jws.go：SignClaims + VerifyClaimsJWS（HS256/RS256 显式算法绑定防混淆）
+- 7 单测全 PASS（正验/篡改/错钥/过期/错aud/RS256 正验/RS256 错钥），自生成测试密钥
+- 验签通过返回 *model.Claims；篡改/错钥/错aud→ErrLicenseSignature，过期→ErrLicenseExpired
+- 未接入 LoadLicenseClaims（需部署验签公钥配置，属部署/密钥注入边界）
+- 台账：W32-jws-license-signature.md（787e4ee）
+
+## 全量回归复核（2026-09-30 20:39，main 787e4ee）
+- Go 全量真实 PG：auth/config/db/handler/migration/model 全 ok
+- node 90/90 PASS；Python 校验器（contract/protocol/feature/a14）全 OK
+- admin-web：lint 0 errors（14 warnings 存量）、vue build OK
+- 桌面端全量 cargo test：进行中（src-tauri 目录）
+
+## 镜像上线（阻塞，需用户授权）
+- 运行中容器未动：chatlog-server:8080（Up 21h）/ chatlog-postgres:5432 / chatlog-minio / infra-db/redis
+- deploy-server:latest 为旧镜像（不含 W24-W32 license/device/heartbeat 新端点）
+- 服务端镜像重建+重启运行容器属 A08 审批边界 → 如实记录阻塞，转下一个可自动执行项
