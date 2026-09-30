@@ -133,3 +133,12 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 
 ## 下一步
 - 强验签：签发 JWS → 写 claims_jws → 配置 CHATLOG_LICENSE_VERIFY_KEY + audience → 重启 → 端到端验证
+
+## W38 强验签上线（2026-10-01 01:07，main c083098）
+- compose server env：CHATLOG_LICENSE_VERIFY_KEY + CHATLOG_LICENSE_AUDIENCE（从 .env 注入，密钥不入仓库）
+- 签发 HS256 对称密钥 → 写 claims_jws（acme/dev rev9）→ 重建 server 容器 → 端到端验签通过
+- 服务日志确认走 LoadLicenseClaimsVerified（revision 9 loaded, 无 verify failed）
+- license/status 经反代返回验签后真实数据；提交 c083098
+
+## 下一步
+- 真实发证/撤销验证（发行方域，需独立 Issuer 环境）
