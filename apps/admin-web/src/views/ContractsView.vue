@@ -4,13 +4,32 @@
     <p class="muted">前端消费工具（W05-W08 + W11 统一入口）只读展示。逻辑见 <code>src/lib/contracts.js</code>，不替代服务端签名/时间/身份语义校验。</p>
 
     <h2>完整性报告</h2>
-    <div class="card-grid">
-      <div class="card" :class="trustable ? 'ok' : 'warn'">
-        <strong>{{ trustable ? 'counts 一致' : 'counts 不一致（不可信）' }}</strong>
+    <div v-if="serverIntegrity.ready" class="card" :class="serverIntegrity.ok ? 'ok' : 'warn'">
+      <template v-if="serverIntegrity.ok">
+        <strong>counts 一致（服务端实时）</strong>
+        <span>完整性：{{ serverIntegrity.completenessText }}（{{ serverIntegrity.verified }}/{{ serverIntegrity.inScope }}）</span>
+        <span class="muted">outOfScope={{ serverIntegrity.outOfScope }} · total={{ serverIntegrity.total }}</span>
+        <span class="muted">generated_at={{ serverIntegrity.generatedAt }}</span>
+      </template>
+      <template v-else>
+        <strong class="error-text">counts 不一致（服务端返回不可信）</strong>
+        <span v-if="serverIntegrity.error" class="error-text">{{ serverIntegrity.error }}</span>
+        <span v-else class="muted">服务端完整性报告不可信，不显示伪造计数</span>
+      </template>
+    </div>
+    <div class="card" :class="trustable ? 'ok' : 'warn'">
+      <template v-if="serverIntegrity.ready">
+        <strong class="muted">本地演示对照（非服务端）</strong>
+        <span v-if="trustable" class="muted">完整性：{{ completenessText }}（{{ verified }}/{{ inScope }}）</span>
+        <span v-else class="error-text">{{ countErrorText }}</span>
+        <span class="muted">outOfScope={{ outOfScope }} · total={{ total }}</span>
+      </template>
+      <template v-else>
+        <strong>{{ trustable ? 'counts 一致（本地演示）' : 'counts 不一致（不可信）' }}</strong>
         <span v-if="trustable">完整性：{{ completenessText }}（{{ verified }}/{{ inScope }}）</span>
         <span v-else class="error-text">{{ countErrorText }}</span>
         <span class="muted">outOfScope={{ outOfScope }} · total={{ total }}</span>
-      </div>
+      </template>
     </div>
 
     <h2>许可状态（服务端实时）</h2>
@@ -72,6 +91,28 @@ export default {
           serverLicense.value = { ready: false, present: false, error: e.message || String(e) }
         })
     }
+    // 服务端实时完整性报告：Enterprise 模式且已登录才拉取；失败/未接入显式展示，不冒充成功。
+    // 真实数据优先（renderReport 校验 counts 一致性，不一致按不可信处理）。
+    const serverIntegrity = ref({ ready: false, ok: false, error: '', verified: 0, inScope: 0, outOfScope: 0, total: 0, completenessText: '', generatedAt: '' })
+    if (enterprise.isEnterpriseMode() && enterprise.getEnterpriseToken()) {
+      enterprise.getIntegrityReport()
+        .then((data) => {
+          try {
+            const r = renderReport({ counts: data?.counts })
+            serverIntegrity.value = {
+              ready: true, ok: true,
+              verified: r.verified, inScope: r.inScope, outOfScope: r.outOfScope, total: r.total,
+              completenessText: r.completeness === null ? 'N/A' : (r.completeness * 100).toFixed(1) + '%',
+              generatedAt: data?.generated_at || '',
+            }
+          } catch (e) {
+            serverIntegrity.value = { ready: true, ok: false, error: e.message || String(e), verified: 0, inScope: 0, outOfScope: 0, total: 0, completenessText: '', generatedAt: '' }
+          }
+        })
+        .catch((e) => {
+          serverIntegrity.value = { ready: false, ok: false, error: e.message || String(e), verified: 0, inScope: 0, outOfScope: 0, total: 0, completenessText: '', generatedAt: '' }
+        })
+    }
     // 合成展示数据：真实运行时由服务端下发的 integrity-report/license-claims/manifest 填充
     const report = ref({
       counts: { total_discovered: 100, in_scope: 80, verified: 50, pending: 20, excluded: 8, source_missing: 2 },
@@ -119,7 +160,7 @@ export default {
     const reconcileOk = rec.ok
     const reconcileErrors = rec.errors
 
-    return { trustable, countErrorText, verified, inScope, outOfScope, total, completenessText, serverLicense, grants, reconcileOk, reconcileErrors }
+    return { trustable, countErrorText, verified, inScope, outOfScope, total, completenessText, serverLicense, serverIntegrity, grants, reconcileOk, reconcileErrors }
   },
 }
 </script>

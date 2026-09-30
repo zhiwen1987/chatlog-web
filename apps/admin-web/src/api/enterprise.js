@@ -90,6 +90,9 @@ export default {
   // license status 为对象响应（非数组）：原样透出 {present, mode, checked, licensee, deployment, features}。
   // 401/403 由 request 统一抛"拒绝访问"错误；服务端 5xx 抛 HTTP 状态错误。
   getLicenseStatus: () => request('/api/v1/license/status').then(r => r.data),
+  // integrity report 为对象响应（非数组）：原样透出 { counts, generated_at }。
+  // 401/403 由 request 统一抛"拒绝访问"错误；服务端 5xx 抛 HTTP 状态错误。
+  getIntegrityReport: () => request('/api/v1/integrity/report').then(r => r.data),
   async getChatLogs (params = {}) {
     const result = await request('/api/v1/messages', params)
     const unwrapped = unwrap(result, 'chatlog', normalizeMessageRow)

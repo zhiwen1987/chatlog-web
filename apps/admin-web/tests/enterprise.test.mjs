@@ -80,3 +80,41 @@ test('getLicenseStatus propagates non-ok status as HTTP error', async () => {
   globalThis.fetch = async () => jsonResponse(500, {});
   await assert.rejects(() => m.default.getLicenseStatus(), /HTTP 500/);
 });
+test('getIntegrityReport unwraps object with counts', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('tok');
+  globalThis.fetch = async () => jsonResponse(200, {
+    counts: { total_discovered: 3, in_scope: 2, verified: 1, pending: 1, excluded: 1, source_missing: 0 },
+    generated_at: '2026-09-30T12:00:00Z',
+  });
+  const r = await m.default.getIntegrityReport();
+  assert.equal(r.counts.verified, 1);
+  assert.equal(r.counts.pending, 1);
+  assert.equal(r.counts.excluded, 1);
+  assert.equal(r.generated_at, '2026-09-30T12:00:00Z');
+});
+
+test('getIntegrityReport rejects 401/403 as auth error', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('bad');
+  globalThis.fetch = async () => jsonResponse(401, { error: 'unauthorized' });
+  await assert.rejects(() => m.default.getIntegrityReport(), /拒绝访问/);
+});
+
+test('getIntegrityReport rejects HTML body as not-data', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('tok');
+  globalThis.fetch = async () => ({
+    ok: true, status: 200,
+    headers: { get: () => 'text/html', entries: () => [] },
+    async text () { return '<!doctype html><html></html>'; },
+  });
+  await assert.rejects(() => m.default.getIntegrityReport(), /网页/);
+});
+
+test('getIntegrityReport propagates non-ok status as HTTP error', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('tok');
+  globalThis.fetch = async () => jsonResponse(500, {});
+  await assert.rejects(() => m.default.getIntegrityReport(), /HTTP 500/);
+});
