@@ -63,3 +63,9 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - 当前：main eeee826，工作树干净
 - 运行中的 docker 容器（chatlog-server:8080 / chatlog-postgres:5432）未动，
   新代码以临时实例连真实 PG 验证（符合 A08 动运行容器需审批）
+
+## W30 设备在线页（2026-09-30 18:58，main 9c9c004）
+- admin-web 新增 Devices.vue + enterprise.getDevices() + /devices 路由 + 导航项
+- lint 0 errors、90 node 测试 PASS、vue build OK
+- 在线判定：last_seen_at 距今 < 5 分钟
+- 运行中容器仍未动；下一步服务端镜像重建需用户授权
