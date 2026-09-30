@@ -37,7 +37,6 @@ func (s *Server) Routes() *http.ServeMux {
 	// 公开认证端点
 	mux.HandleFunc("POST /api/v1/auth/register", s.register)
 	mux.HandleFunc("POST /api/v1/auth/login", s.login)
-	mux.HandleFunc("POST /api/v1/license", s.writeLicense)
 
 	// 认证中间件
 	authed := auth.Authenticate(s.JWTSecret, http.HandlerFunc(s.router))
@@ -70,6 +69,8 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.listMessagesV2(w, r)
 	case path == "/api/v1/license/status":
 		s.licenseStatus(w, r)
+	case path == "/api/v1/license" && r.Method == http.MethodPost:
+		s.writeLicense(w, r)
 	default:
 		http.NotFound(w, r)
 	}

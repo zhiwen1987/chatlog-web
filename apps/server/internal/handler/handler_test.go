@@ -4,11 +4,13 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/db"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/handler"
@@ -71,9 +73,10 @@ func doJSON(t *testing.T, method, url string, body any, token string) (int, any)
 func TestRegisterLoginMe(t *testing.T) {
 	ts := setupServer(t)
 
+	email := fmt.Sprintf("reg-%d@example.com", time.Now().UnixNano())
 	// 注册
 	code, body := doJSON(t, "POST", ts.URL+"/api/v1/auth/register", map[string]any{
-		"company": "测试公司", "name": "张三", "email": "zhangsan@example.com", "password": "password123",
+		"company": "测试公司", "name": "张三", "email": email, "password": "password123",
 	}, "")
 	if code != http.StatusCreated {
 		t.Fatalf("register status %d body %v", code, body)
@@ -100,7 +103,7 @@ func TestRegisterLoginMe(t *testing.T) {
 
 	// 重复注册同邮箱 -> 409
 	code, _ = doJSON(t, "POST", ts.URL+"/api/v1/auth/register", map[string]any{
-		"company": "B", "name": "李四", "email": "zhangsan@example.com", "password": "password123",
+		"company": "B", "name": "李四", "email": email, "password": "password123",
 	}, "")
 	if code != http.StatusConflict {
 		t.Fatalf("duplicate register status %d, want 409", code)
@@ -108,7 +111,7 @@ func TestRegisterLoginMe(t *testing.T) {
 
 	// 登录
 	code, body = doJSON(t, "POST", ts.URL+"/api/v1/auth/login", map[string]any{
-		"email": "zhangsan@example.com", "password": "password123",
+		"email": email, "password": "password123",
 	}, "")
 	if code != http.StatusOK {
 		t.Fatalf("login status %d body %v", code, body)
@@ -119,7 +122,7 @@ func TestRegisterLoginMe(t *testing.T) {
 
 	// 错误密码 -> 401
 	code, _ = doJSON(t, "POST", ts.URL+"/api/v1/auth/login", map[string]any{
-		"email": "zhangsan@example.com", "password": "wrong",
+		"email": email, "password": "wrong",
 	}, "")
 	if code != http.StatusUnauthorized {
 		t.Fatalf("bad login status %d, want 401", code)
@@ -129,7 +132,7 @@ func TestRegisterLoginMe(t *testing.T) {
 func TestAdminLists(t *testing.T) {
 	ts := setupServer(t)
 	_, regBody := doJSON(t, "POST", ts.URL+"/api/v1/auth/register", map[string]any{
-		"company": "A", "name": "王五", "email": "wangwu@example.com", "password": "password123",
+		"company": "A", "name": "王五", "email": fmt.Sprintf("adm-%d@example.com", time.Now().UnixNano()), "password": "password123",
 	}, "")
 	token, _ := regBody.(map[string]any)["token"].(string)
 

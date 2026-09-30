@@ -5,14 +5,17 @@ package handler_test
 // 需要 TEST_DATABASE_URL_HANDLER，未设时 skip（如实，不假跑）。
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 )
 
 // 复用 handler_test 的 setupServer/doJSON（同包）。
 
 func registerToken(t *testing.T, ts *httptest.Server, email string) string {
+	email = fmt.Sprintf("%s-%d", email, time.Now().UnixNano())
 	t.Helper()
 	code, body := doJSON(t, "POST", ts.URL+"/api/v1/auth/register", map[string]any{
 		"company": "许可测试", "name": "测试", "email": email, "password": "password123",
