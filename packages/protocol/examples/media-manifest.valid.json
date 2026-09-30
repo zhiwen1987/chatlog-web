@@ -1,0 +1,19 @@
+{
+  "manifest_id": "mm-01",
+  "catalog_version": 1,
+  "tenant_id": "t001",
+  "deployment_id": "d001",
+  "object_ref": "obj.bytes.0001",
+  "media_type": "image",
+  "origin": {
+    "kind": "original",
+    "source": "wechat-desktop",
+    "source_message_ref": "src.msg.1001"
+  },
+  "bytes_ref": "s3://bucket/objects/obj.bytes.0001",
+  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "size_bytes": 1024,
+  "seq": "42",
+  "created_at": "2026-01-02T03:04:05Z",
+  "state": "stored"
+}

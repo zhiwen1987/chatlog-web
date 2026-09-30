@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WCM Media Object Manifest",
+  "description": "媒体对象清单（规则 R42.7）。登记已持久化媒体对象的身份、归属、哈希、字节引用与生命周期，不复制完整二进制，不做 UI 计数遮盖。禁止在 app 目录维护手写副本，唯一来源在本包。",
+  "catalog_version": 1,
+  "required": ["manifest_id", "catalog_version", "tenant_id", "deployment_id", "object_ref", "media_type", "origin", "bytes_ref", "sha256", "size_bytes", "seq", "created_at", "state"],
+  "properties": {
+    "manifest_id": { "type": "string", "description": "稳定幂等 manifest ID（可重放，不允许同对象重复新增）" },
+    "catalog_version": { "type": "integer", "minimum": 1 },
+    "tenant_id": { "type": "string", "description": "产品 tenant ID，非 licensee ID（R07/R42.7）" },
+    "deployment_id": { "type": "string", "description": "部署实例 ID；与 tenant_id 组成复合归属键" },
+    "object_ref": { "type": "string", "description": "对象引用，bytes/十进制字符串（R42.7），分区唯一" },
+    "media_type": { "type": "string", "enum": ["image", "video", "audio", "file"], "description": "不只信后缀/客户端 MIME，依据适配元信息与受限头部检测（R42.10）；模糊类型隔离" },
+    "origin": {
+      "type": "object",
+      "required": ["kind", "source", "source_message_ref"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["original", "derived"], "description": "original=原件；derived=派生件（如转码/缩略图），不覆盖原件" },
+        "source": { "type": "string", "description": "来源（SourceAdapter 标识）" },
+        "source_message_ref": { "type": "string", "description": "来源消息稳定引用；与 source 组成唯一键" }
+      }
+    },
+    "bytes_ref": { "type": "string", "description": "持久化字节引用（对象存储键或引用）；同一对象只更新引用不重写内容（R42.10）" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "原件/派生件内容哈希；只切权限不改 hash" },
+    "size_bytes": { "type": "integer", "minimum": 0 },
+    "seq": { "type": "string", "description": "单调水位/序号，十进制字符串（R42.7），随回放递增" },
+    "created_at": { "type": "string", "format": "date-time", "description": "UTC ISO-8601" },
+    "state": { "type": "string", "enum": ["stored", "deleting", "deleted", "quarantined"], "description": "quarantined=毒数据隔离，不假 ACK（R42.7）" },
+    "replaces": { "type": "string", "description": "被本 manifest 替换的旧 object_ref（可选，用于派生件升级）" }
+  },
+  "additionalProperties": false,
+  "notes": {
+    "no_overwrite_hash": "只切权限不改文件 hash，不重写 TB 库或全量重传（R42.10）",
+    "no_ui_counting": "不漏消息不能改 UI 计数或跳 checkpoint 遮盖（架构与数据流 R42.7）",
+    "object_ref_key": "object_ref+tenant_id+deployment_id 复合分区唯一，与 data-ownership.json 的 field_mode 一致"
+  }
+}

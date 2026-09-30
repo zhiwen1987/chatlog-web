@@ -1,0 +1,13 @@
+{
+  "receipt_id": "rcpt-01",
+  "catalog_version": 1,
+  "tenant_id": "t001",
+  "deployment_id": "d001",
+  "source": "wechat-desktop",
+  "source_message_ref": "src.msg.1001",
+  "seq": "42",
+  "committed_at": "2026-01-02T03:04:05Z",
+  "backup_set": "bs-2026-01",
+  "object_ref": "obj.bytes.0001",
+  "media_kind": "image"
+}

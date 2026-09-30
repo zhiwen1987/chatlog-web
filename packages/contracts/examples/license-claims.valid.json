@@ -1,0 +1,40 @@
+{
+  "$schema": "../license-claims.json",
+  "typ": "wcm-license+json",
+  "iss": "https://issuer.example.invalid",
+  "aud": "deployment://example/01",
+  "iat": 1780000000,
+  "exp": 1782598400,
+  "licensee": "licensee-9f3c",
+  "deployment": "deployment://example/01",
+  "public_key_binding": "kid=2026-01-a",
+  "license_revision": 3,
+  "activation_epoch": 1780000000,
+  "lease_seq": 12,
+  "mode": "subscription",
+  "valid_from": 1780000000,
+  "valid_until": 1782598400,
+  "version_range": { "min_app": "1.0.0", "min_catalog": 1 },
+  "feature_catalog_version": 1,
+  "limits": { "metric": "storage_bytes", "unit": "byte", "limit": 1073741824, "period": "month" },
+  "feature_grants": [
+    {
+      "grant_id": "grant-0001",
+      "feature_key": "archive.read",
+      "state": "active",
+      "valid_from": 1780000000,
+      "valid_until": 1782598400,
+      "quotas": []
+    },
+    {
+      "grant_id": "grant-0002",
+      "feature_key": "archive.ingest",
+      "state": "active",
+      "valid_from": 1780000000,
+      "valid_until": 1782598400,
+      "quotas": [
+        { "metric": "ingest_bytes", "kind": "bytes", "unit": "byte", "limit": 536870912, "period": "month" }
+      ]
+    }
+  ]
+}

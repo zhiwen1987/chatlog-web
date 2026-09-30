@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WCM Media Integrity Report",
+  "description": "媒体完整性报告骨架（规则 R42.10）。报告给出发现总量、应传范围、verified、待传、被排除数量及原因；不把未授权当 missing，不标 verified 冒充完整。当前范围 100% 不能声称整个微信 100% 备份。",
+  "catalog_version": 1,
+  "required": [
+    "report_id",
+    "generated_at",
+    "scope",
+    "counts",
+    "items"
+  ],
+  "properties": {
+    "report_id": { "type": "string", "description": "稳定幂等报告 ID" },
+    "generated_at": { "type": "string", "format": "date-time", "description": "生成时间（UTC ISO-8601）" },
+    "scope": {
+      "type": "object",
+      "required": ["tenant_id", "deployment_id", "range_from", "range_to"],
+      "properties": {
+        "tenant_id": { "type": "string", "description": "产品 tenant ID，非 licensee ID（R07/R42.7）" },
+        "deployment_id": { "type": "string" },
+        "range_from": { "type": "string", "format": "date-time" },
+        "range_to": { "type": "string", "format": "date-time" }
+      },
+      "description": "当前范围；不能声称整个微信 100% 备份"
+    },
+    "counts": {
+      "type": "object",
+      "required": ["total_discovered", "in_scope", "verified", "pending", "excluded", "source_missing"],
+      "properties": {
+        "total_discovered": { "type": "integer", "minimum": 0 },
+        "in_scope": { "type": "integer", "minimum": 0, "description": "应传范围" },
+        "verified": { "type": "integer", "minimum": 0 },
+        "pending": { "type": "integer", "minimum": 0, "description": "待传" },
+        "excluded": { "type": "integer", "minimum": 0, "description": "被排除数量（含 license/policy 原因）" },
+        "source_missing": { "type": "integer", "minimum": 0, "description": "源已缺失，非未授权" }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["object_ref", "kind", "status", "reason"],
+        "properties": {
+          "object_ref": { "type": "string", "description": "对象引用（bytes/十进制字符串，R42.7）" },
+          "kind": { "type": "string", "enum": ["image", "video", "audio", "file"] },
+          "status": {
+            "type": "string",
+            "enum": ["verified", "pending", "excluded_by_license", "paused_by_policy", "source_missing"],
+            "description": "原件状态三态（R42.10）：未授权=excluded_by_license；企业停用=paused_by_policy；源已缺失=source_missing。不能全写 missing，更不能标 verified"
+          },
+          "reason": { "type": "string", "description": "排除/缺失原因（如 FEATURE_NOT_GRANTED、POLICY_PAUSED、SOURCE_DELETED）" },
+          "media_type": { "type": "string", "description": "不只信后缀/客户端 MIME，依据适配元信息与受限头部检测（R42.10）；模糊类型隔离" }
+        }
+      },
+      "description": "items 过大时用受限结构化存储/分页，不把所有历史批次巨大数组重复塞审计（R42.7）"
+    }
+  },
+  "additionalProperties": false,
+  "notes": {
+    "no_overwrite_hash": "只切权限不改文件 hash，不重写 TB 库或全量重传（R42.10）",
+    "original_not_overwritten": "原件、派生件、引用、搜索、备份沿 v4 分层；转码被关后已存在的安全播放副本仍可按 ACL 读取（R42.10）",
+    "excluded_reason": "增购后按持久清单补传仍存在原件；已从源删除则真实报告不能恢复（R42.10）"
+  }
+}

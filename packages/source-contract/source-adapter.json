@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WCM SourceAdapter Contract",
+  "description": "数据来源适配器契约（规则 R05/R42.7）。实现既有 SourceAdapter 接口，不在 UI 里读库；新数据经历统一标准化、质量隔离、Outbox 与 receipt。记录 detect/schema 探测/账号身份/shard generation/稳定 ID/游标能力/不支持情况。来源只读；毒数据隔离，不假 ACK。禁止在 app 目录重复定义接口。",
+  "catalog_version": 1,
+  "required": ["contract_version", "source_id", "capabilities", "identity", "cursor", "unsupported", "overwrite_policy"],
+  "properties": {
+    "contract_version": { "type": "integer", "minimum": 1 },
+    "source_id": { "type": "string", "description": "SourceAdapter 唯一标识（与 source_accounts.platform 一致，R42.7 id_kinds：来源 external ID 非主键）" },
+    "capabilities": {
+      "type": "object",
+      "required": ["detect", "schema_probe", "stable_id", "shard_generation", "cursor"],
+      "properties": {
+        "detect": { "type": "boolean", "description": "能否检测来源与账号身份" },
+        "schema_probe": { "type": "boolean", "description": "能否探测 schema/表结构" },
+        "stable_id": { "type": "boolean", "description": "是否产生稳定 ID（相同正文不同消息不归并，R42.7）" },
+        "shard_generation": { "type": "boolean", "description": "是否支持分片 generation" },
+        "cursor": { "type": "boolean", "description": "是否提供游标能力" }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": ["kind", "external_id"],
+      "properties": {
+        "kind": { "type": "string", "description": "账号身份类型（如 wxid/gh/room）" },
+        "external_id": { "type": "string", "description": "来源 external ID，十进制字符串/文本，非产品主键（R42.7 id_kinds）" }
+      }
+    },
+    "cursor": {
+      "type": "object",
+      "required": ["watermark", "is_exhaustive"],
+      "properties": {
+        "watermark": { "type": "string", "description": "单调 seq 十进制字符串（R42.7），回放推进" },
+        "is_exhaustive": { "type": "boolean", "description": "是否完整变更序列；false 时须记录覆盖限制与全量对账策略" }
+      }
+    },
+    "unsupported": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "不支持情况清单（如无历史全文、媒体缺失、旧 schema）"
+    },
+    "overwrite_policy": {
+      "type": "object",
+      "required": ["low_water_backfill", "duplicate_observation", "account_switch"],
+      "properties": {
+        "low_water_backfill": { "type": "string", "description": "低位回填策略" },
+        "duplicate_observation": { "type": "string", "description": "重复观察策略" },
+        "account_switch": { "type": "string", "description": "账号切换策略" }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "notes": {
+    "not_reliable_cdc": "若数据源没有完整变更序列，记录覆盖限制与全量对账策略，不冒称可靠 CDC（二次开发指南）",
+    "readonly_source": "来源只读；毒数据隔离，不假 ACK（模块与数据所有权）",
+    "through_pipeline": "新数据经历统一标准化、质量隔离、Outbox 与 receipt（二次开发指南）"
+  }
+}

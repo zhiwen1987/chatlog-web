@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WCM License Claims v2",
+  "description": "商业许可 claims v2 合同骨架（规则 R42.8）。feature_grants[] 为商业权利唯一来源，替代旧 features[]。本文件只是结构约束；生产必须另验原始 JWS 签名、时间/单位/依赖语义、身份绑定、防回滚与配额。示例未签名，不能作为激活码。",
+  "catalog_version": 1,
+  "claims_version": 2,
+  "required": [
+    "typ",
+    "iss",
+    "aud",
+    "iat",
+    "exp",
+    "licensee",
+    "deployment",
+    "feature_catalog_version",
+    "license_revision",
+    "activation_epoch",
+    "feature_grants"
+  ],
+  "properties": {
+    "typ": { "const": "wcm-license+json", "description": "明确 typ，拒绝 none、算法混淆、不可信 jku/x5u 和重复 JSON 键（R42.8）" },
+    "iss": { "type": "string", "description": "固定可信 issuer" },
+    "aud": { "type": "string", "description": "固定 audience（deployment 绑定）" },
+    "iat": { "type": "integer", "description": "签发时间（epoch 秒）" },
+    "exp": { "type": "integer", "description": "外层 exp 限制凭证最终接受时间，不取所有 feature 中最早到期时间（R42.8）" },
+    "licensee": { "type": "string", "description": "客户商业 licensee ID，与产品 tenant ID 不是同一主键（R07/R42.7）" },
+    "deployment": { "type": "string", "description": "deployment ID，PoP 与信任集绑定" },
+    "public_key_binding": { "type": "string", "description": "公钥绑定（指纹或 kid）" },
+    "license_revision": { "type": "integer", "description": "单调递增；补偿必须新 revision，禁止回退（R42.7）" },
+    "activation_epoch": { "type": "integer", "description": "激活 epoch，用于防回滚与缓存失效" },
+    "lease_seq": { "type": "integer", "description": "续租序列；旧 seq 不刷新在线（R42.9）" },
+    "mode": { "type": "string", "enum": ["subscription", "perpetual"], "description": "订阅/买断；订阅/离线单项期限不得超过容器合同，买断/null 截止按独立签名政策，不让客户自行填 null 变永久（R42.8）" },
+    "valid_from": { "type": "integer", "description": "合同生效时间（epoch 秒），左闭右开" },
+    "valid_until": { "type": ["integer", "null"], "description": "合同截止；null 仅在 perpetual 且由发行方签名政策允许时出现" },
+    "version_range": {
+      "type": "object",
+      "required": ["min_app", "min_catalog"],
+      "properties": {
+        "min_app": { "type": "string", "description": "最低 App 能力版本" },
+        "min_catalog": { "type": "integer", "description": "最低 feature 目录版本" }
+      },
+      "description": "软件版本、文档版本、claims 版本、目录版本分别管理（R42.8）"
+    },
+    "feature_catalog_version": { "type": "integer", "description": "目录版本；引用 packages/contracts/feature-catalog.json 的 catalog_version" },
+    "limits": {
+      "type": "object",
+      "description": "全局 limits（跨 feature 的用量/预算上限）",
+      "properties": {
+        "metric": { "type": "string" },
+        "unit": { "type": "string" },
+        "limit": { "type": "integer" },
+        "period": { "type": "string", "description": "如 month" }
+      }
+    },
+    "feature_grants": {
+      "type": "array",
+      "description": "商业权利唯一来源（R42.8）。未知 key 不自动授权；未知约束不能忽略后变无限额",
+      "items": {
+        "type": "object",
+        "required": ["grant_id", "feature_key", "state", "valid_from"],
+        "properties": {
+          "grant_id": { "type": "string", "description": "稳定 grant_id，同版本同 feature 唯一（R42.7）" },
+          "feature_key": { "type": "string", "description": "必须存在于 feature-catalog.json 的 features[].key，否则拒绝（R42.2/R42.8）" },
+          "state": { "type": "string", "enum": ["active", "paused", "revoked", "expired"] },
+          "valid_from": { "type": "integer", "description": "左闭" },
+          "valid_until": { "type": ["integer", "null"], "description": "右开；null 仅在发行方签名的买断政策下" },
+          "quotas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["metric", "kind", "unit", "limit", "period"],
+              "properties": {
+                "metric": { "type": "string", "description": "同 metric 唯一（R42.7）" },
+                "kind": { "type": "string", "enum": ["count", "rate", "bytes"] },
+                "unit": { "type": "string" },
+                "limit": { "type": "integer", "minimum": 1, "description": "正整数（R42.7）" },
+                "period": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "notes": {
+    "v2_only": "已进入 v2-only 状态由受信签名政策明确持久化，不允许通过重装 UI 或请求旧 schema 自动降级（R42.8）",
+    "old_features": "旧 features[] 不再作为商业权利来源；迁移须发行方依据原合同明确映射，客户端不能按前缀自动开通（R42.8）",
+    "not_activation": "本 JSON Schema 只是结构校验，未签名；不能作为激活码",
+    "no_client_grants": "客户开关请求白名单不包含 feature grants、期限、配额、issuer 或部署绑定，额外字段直接拒绝（R42.11.2）"
+  }
+}

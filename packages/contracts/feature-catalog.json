@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WCM Feature Catalog",
+  "description": "独立功能目录（规则 R42.2 唯一来源）。生成 Go/TypeScript 类型、平台表单、产品状态映射和测试；不维护多份手写清单。变更须进入串行共享窗口（M08.4），单 owner 归口修改。",
+  "catalog_version": 1,
+  "features": [
+    {
+      "key": "archive.read",
+      "name": "增强聊天工作台",
+      "description": "增强聊天工作台读取能力。基础历史取回不由商业开关封锁。",
+      "depends_on": []
+    },
+    {
+      "key": "archive.ingest",
+      "name": "新聊天采集、同步",
+      "description": "新聊天采集与同步。多媒体消息元数据保留；原件类型另授予。",
+      "depends_on": []
+    },
+    {
+      "key": "media.upload.image",
+      "name": "图片原件同步",
+      "description": "图片原件同步。",
+      "depends_on": ["archive.ingest"]
+    },
+    {
+      "key": "media.upload.video",
+      "name": "视频原件同步",
+      "description": "视频原件同步。",
+      "depends_on": ["archive.ingest"]
+    },
+    {
+      "key": "media.upload.audio",
+      "name": "语音、音频原件同步",
+      "description": "语音、音频原件同步；不含转写。",
+      "depends_on": ["archive.ingest"]
+    },
+    {
+      "key": "media.upload.file",
+      "name": "普通附件同步",
+      "description": "文档、压缩包等普通附件同步；不允许任意读文件系统。",
+      "depends_on": ["archive.ingest"]
+    },
+    {
+      "key": "media.preview",
+      "name": "增强预览、缩略图",
+      "description": "新建增强预览、缩略图。已有安全原件/派生件仍可取回。",
+      "depends_on": []
+    },
+    {
+      "key": "media.transcode",
+      "name": "音视频转码",
+      "description": "新音视频转码；不覆盖原件。",
+      "depends_on": ["media.preview"]
+    },
+    {
+      "key": "media.ocr",
+      "name": "图片文字识别",
+      "description": "图片文字识别。外部 OCR 另需外发同意、配置和预算。",
+      "depends_on": []
+    },
+    {
+      "key": "media.transcribe",
+      "name": "语音、视频转写",
+      "description": "语音、视频转写。外部 ASR 另需外发同意、配置和预算。",
+      "depends_on": []
+    },
+    {
+      "key": "media.document_extract",
+      "name": "文档正文提取",
+      "description": "文档正文提取。沙箱处理，不运行宏或脚本。",
+      "depends_on": []
+    },
+    {
+      "key": "customer.manage",
+      "name": "客户、标签、备注、跟进写入",
+      "description": "客户、标签、备注、跟进写入。历史资料按 ACL 保留。",
+      "depends_on": []
+    },
+    {
+      "key": "ai.profile",
+      "name": "新建/刷新客户画像",
+      "description": "新建/刷新客户画像。证据、外发、费用另查。",
+      "depends_on": ["customer.manage"]
+    },
+    {
+      "key": "ai.summary",
+      "name": "新建/刷新会话摘要",
+      "description": "新建/刷新会话摘要。既有摘要可受控读取。",
+      "depends_on": []
+    },
+    {
+      "key": "analytics.advanced",
+      "name": "高级统计、报表生成",
+      "description": "高级统计、报表生成。既有报表可取回。",
+      "depends_on": []
+    },
+    {
+      "key": "search.advanced",
+      "name": "高级检索",
+      "description": "高级组合/语义等检索操作。基础准确查询不可假空、故意减速。",
+      "depends_on": []
+    },
+    {
+      "key": "mcp.read",
+      "name": "企业 MCP 读工具、资源",
+      "description": "企业 MCP 读工具、资源。还检查目标业务功能、ACL、Host 外发政策。",
+      "depends_on": []
+    },
+    {
+      "key": "mcp.write",
+      "name": "企业 MCP 业务写工具",
+      "description": "企业 MCP 业务写工具。不含平台发证、SQL 或 Shell。",
+      "depends_on": ["mcp.read"]
+    },
+    {
+      "key": "backup.schedule",
+      "name": "周期自动备份计划",
+      "description": "新建周期自动备份计划。必要安全备份、手动取回、隔离恢复属保护通道。",
+      "depends_on": []
+    },
+    {
+      "key": "enterprise.sso",
+      "name": "SSO 配置和新会话能力",
+      "description": "SSO 配置和新会话能力。到期保留安全的应急管理员登录。",
+      "depends_on": []
+    },
+    {
+      "key": "data.export",
+      "name": "高级模板、自动化导出",
+      "description": "高级模板、自动化导出。标准格式的完整数据取回不付费封锁。",
+      "depends_on": []
+    },
+    {
+      "key": "quality.manage",
+      "name": "清洗、重解析等高级写操作",
+      "description": "清洗、重解析等高级写操作。必要安全回滚/修复独立保护。",
+      "depends_on": []
+    },
+    {
+      "key": "ops.manage",
+      "name": "高级批量运维",
+      "description": "高级批量运维。心跳、健康、取消、基础审计、许可修复不可关闭。",
+      "depends_on": []
+    }
+  ],
+  "rules": {
+    "unique_key": "一项功能一个稳定 key；禁止 all=true、通配符或父前缀自动包含未来功能。全功能授权只展开当前目录版本的明确列表。",
+    "dependency_dag": "依赖为有向无环图；依赖缺失时预览报错，不在客户侧或平台后台悄悄加购、赠送依赖。",
+    "grant_window": "每项 grant 有独立 valid_from / valid_until，左闭右开区间；单项到期不自动撤销其他项。"
+  }
+}

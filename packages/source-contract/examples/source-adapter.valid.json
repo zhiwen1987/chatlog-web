@@ -1,0 +1,13 @@
+{
+  "contract_version": 1,
+  "source_id": "wechat-desktop",
+  "capabilities": { "detect": true, "schema_probe": true, "stable_id": true, "shard_generation": true, "cursor": true },
+  "identity": { "kind": "wxid", "external_id": "wxid_abc123" },
+  "cursor": { "watermark": "1000", "is_exhaustive": true },
+  "unsupported": ["无历史全文"],
+  "overwrite_policy": {
+    "low_water_backfill": "按消息身份去重，不按正文 hash 归并",
+    "duplicate_observation": "重复观察不覆盖，标记重复",
+    "account_switch": "账号切换重置游标并全量对账"
+  }
+}

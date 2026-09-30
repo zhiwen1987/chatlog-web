@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WCM AI Profile Schema",
+  "description": "AI 画像 schema 契约（规则 R05/R06-R10）。画像是可重建派生，不是唯一数据源；由受限 Worker 生成；原始正文与 AI 派生分层，不改原文。identity/facts/evidence/snapshots 分层，人工新版本不被 AI 覆盖。禁止在 app 目录重复定义。",
+  "catalog_version": 1,
+  "required": ["schema_version", "profile_id", "tenant_id", "subject_ref", "source", "layers", "generated_at", "derived"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "profile_id": { "type": "string", "description": "画像 ID（UUID hex，应用层生成，R42.7）" },
+    "tenant_id": { "type": "string", "description": "产品 tenant ID，非 licensee ID" },
+    "subject_ref": { "type": "string", "description": "画像对象（客户/会话）稳定引用，非人类用户名" },
+    "source": { "type": "string", "description": "来源（customer.manage 数据或会话摘要）" },
+    "layers": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["identity", "facts", "evidence", "snapshots"] },
+      "minItems": 1,
+      "description": "分层：identity 关联 / facts 事实 / evidence 证据 / snapshots 快照"
+    },
+    "generated_at": { "type": "string", "format": "date-time", "description": "UTC ISO-8601" },
+    "derived": {
+      "type": "object",
+      "required": ["rebuilt", "from", "unique_source"],
+      "properties": {
+        "rebuilt": { "type": "boolean", "description": "是否可重建派生（搜索/向量/画像）" },
+        "from": { "type": "string", "description": "重建来源（如原始正文/标准消息）" },
+        "unique_source": { "type": "boolean", "description": "是否唯一数据源；必须 false（不可用向量库/缓存作为唯一数据源）" }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "notes": {
+    "derived_not_primary": "画像是可重建派生，不是唯一数据源；不可用向量库或缓存作为唯一数据源（架构与数据流）",
+    "worker_generated": "由受限 Worker 生成；原始正文与 AI 派生分层，不改原文（R06-R10）",
+    "human_not_overwritten": "人工新版本不被 AI 覆盖；facts/evidence/snapshots 分层（data-ownership Customer/Profile）"
+  }
+}

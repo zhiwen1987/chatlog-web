@@ -1,0 +1,42 @@
+{
+  "$schema": "../integrity-report.json",
+  "report_id": "report-2026-01-01-0001",
+  "generated_at": "2026-01-01T00:00:00Z",
+  "scope": {
+    "tenant_id": "tenant-7a2c",
+    "deployment_id": "deployment://example/01",
+    "range_from": "2025-12-01T00:00:00Z",
+    "range_to": "2026-01-01T00:00:00Z"
+  },
+  "counts": {
+    "total_discovered": 10,
+    "in_scope": 8,
+    "verified": 5,
+    "pending": 2,
+    "excluded": 1,
+    "source_missing": 0
+  },
+  "items": [
+    {
+      "object_ref": "obj-0001",
+      "kind": "image",
+      "status": "verified",
+      "reason": null,
+      "media_type": "image/jpeg"
+    },
+    {
+      "object_ref": "obj-0002",
+      "kind": "image",
+      "status": "pending",
+      "reason": null,
+      "media_type": "image/png"
+    },
+    {
+      "object_ref": "obj-0003",
+      "kind": "video",
+      "status": "excluded_by_license",
+      "reason": "FEATURE_NOT_GRANTED",
+      "media_type": "video/mp4"
+    }
+  ]
+}

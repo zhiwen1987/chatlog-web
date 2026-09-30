@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WCM Ingest Receipt",
+  "description": "采集收据（架构与数据流 R42.7 / data-ownership receipt 语义）。仅在服务端耐久提交后发出，代表已接受并落库，不表示已发布/已索引/媒体已验证（publish/index/media_verified 与 receipt 分离）。禁止在 app 目录重复定义。",
+  "catalog_version": 1,
+  "required": ["receipt_id", "catalog_version", "tenant_id", "deployment_id", "source", "source_message_ref", "seq", "committed_at", "backup_set"],
+  "properties": {
+    "receipt_id": { "type": "string", "description": "稳定幂等收据 ID（客户端重放同一收据不重复 ACK）" },
+    "catalog_version": { "type": "integer", "minimum": 1 },
+    "tenant_id": { "type": "string", "description": "产品 tenant ID，非 licensee ID（R07/R42.7）" },
+    "deployment_id": { "type": "string", "description": "部署实例 ID" },
+    "source": { "type": "string", "description": "来源（SourceAdapter 标识）" },
+    "source_message_ref": { "type": "string", "description": "来源消息稳定引用；与 source 组成唯一键" },
+    "seq": { "type": "string", "description": "单调水位/序号，十进制字符串（R42.7），回放推进" },
+    "committed_at": { "type": "string", "format": "date-time", "description": "UTC ISO-8601；耐久提交时间，非网络到达时间" },
+    "backup_set": { "type": "string", "description": "本次提交所属 backup set（用于恢复时按 receipt/重放窗口对账）" },
+    "object_ref": { "type": "string", "description": "已接受的媒体对象引用（可空：非媒体消息的收据不带对象）" },
+    "media_kind": { "type": "string", "enum": ["image", "video", "audio", "file"], "description": "可空；仅当 object_ref 存在时给出" }
+  },
+  "additionalProperties": false,
+  "notes": {
+    "ack_after_durable": "接收 ACK 只在耐久提交后发出；心跳成功不推进数据 ACK（A07）",
+    "not_a_success_marker": "receipt 不代表已发布/已索引/媒体已验证；这些与 receipt 分离（架构与数据流）",
+    "no_fake_ack": "PG 损坏/丢失时暂停接收或不发假 ACK；已过本地重放保留且未备份部分如实披露（备份恢复与应急）",
+    "source_key": "source+source_message_ref 唯一键，与 media-manifest.json 的 origin 键一致"
+  }
+}
