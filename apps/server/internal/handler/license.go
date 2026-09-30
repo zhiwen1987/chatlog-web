@@ -9,12 +9,25 @@ import (
 	"time"
 
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/auth"
+	"github.com/zhiwen1987/chatlog-web/apps/server/internal/db"
+	"github.com/zhiwen1987/chatlog-web/apps/server/internal/model"
 )
 
-// licenseStatus 返回许可状态摘要。License 为 nil 时默认拒绝（R42.7 默认拒绝）。
+// licenseStatus 返回许可状态摘要。每次实时查 DB（deployment 最新 revision）；
+// 查不到或出错时默认拒绝（R42.7 默认拒绝）。
 func (s *Server) licenseStatus(w http.ResponseWriter, r *http.Request) {
 	now := time.Now().UTC()
-	c := s.License
+	var c *model.Claims
+	if s.DB != nil {
+		var err error
+		c, err = db.LoadLicenseClaims(r.Context(), s.DB, s.DeploymentID)
+		if err != nil {
+			writeErr(w, http.StatusInternalServerError, "license lookup failed")
+			return
+		}
+	} else {
+		c = s.License // 单测/无 DB 环境回退启动快照
+	}
 	resp := map[string]any{
 		"present": c != nil,
 		"mode":    nil,

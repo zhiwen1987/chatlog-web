@@ -16,6 +16,7 @@ type Deps struct {
 	JWTSecret   string
 	TokenTTLMin int
 	License     *model.Claims // 许可 claims v2（可空；nil=默认拒绝，R42.8）
+	DeploymentID string
 }
 
 // Server 组装所有 HTTP 路由。

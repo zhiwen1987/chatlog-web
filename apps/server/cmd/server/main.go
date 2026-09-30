@@ -51,10 +51,11 @@ func main() {
 	}
 
 	srv := handler.New(handler.Deps{
-		DB:          conn,
-		JWTSecret:   cfg.JWTSecret,
-		TokenTTLMin: cfg.TokenTTLMinutes,
-		License:     license,
+		DB:           conn,
+		JWTSecret:    cfg.JWTSecret,
+		TokenTTLMin:  cfg.TokenTTLMinutes,
+		License:      license,
+		DeploymentID: cfg.DeploymentID,
 	})
 
 	httpServer := &http.Server{
