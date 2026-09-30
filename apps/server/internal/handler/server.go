@@ -7,6 +7,7 @@ import (
 
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/audit"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/auth"
+	"github.com/zhiwen1987/chatlog-web/apps/server/internal/model"
 )
 
 // Deps 处理器依赖。
@@ -14,6 +15,7 @@ type Deps struct {
 	DB          *sql.DB
 	JWTSecret   string
 	TokenTTLMin int
+	License     *model.Claims // 许可 claims v2（可空；nil=默认拒绝，R42.8）
 }
 
 // Server 组装所有 HTTP 路由。
@@ -65,6 +67,8 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.listConversationsV2(w, r)
 	case path == "/api/v1/messages":
 		s.listMessagesV2(w, r)
+	case path == "/api/v1/license/status":
+		s.licenseStatus(w, r)
 	default:
 		http.NotFound(w, r)
 	}
