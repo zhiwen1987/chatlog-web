@@ -63,3 +63,14 @@ test('renderReport rejects verified item with reason (fake completeness)', () =>
   const ok = m.renderReport({ counts: validCounts, items: [{ status: 'verified' }] });
   assert.equal(ok.trustable, true);
 });
+
+test('negative counts are rejected (no silent negative completeness)', () => {
+  assert.throws(
+    () => m.renderReport({ counts: { total_discovered: -1, in_scope: 8, verified: 8, pending: 0, excluded: 0, source_missing: 0 } }),
+    (e) => e.code === 'UNTRUSTED_COUNTS'
+  );
+});
+
+test('non-integer counts are rejected, not truncated', () => {
+  assert.ok(m.countErrors({ total_discovered: 10.5, in_scope: 8, verified: 8, pending: 0, excluded: 0, source_missing: 0 }).some((e) => e.includes('非负整数')));
+});
