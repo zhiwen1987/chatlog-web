@@ -86,6 +86,7 @@ export default {
   getContacts: () => request('/api/v1/contacts').then(r => unwrap(r, 'contacts', normalizeContact)),
   getChatrooms: () => request('/api/v1/conversations').then(r => unwrap(r, 'chatrooms', normalizeRoom)),
   getSessions: () => request('/api/v1/conversations').then(r => unwrap(r, 'sessions', normalizeSession)),
+  getDevices: () => request('/api/v1/devices').then(r => unwrap(r, 'devices', d => d)),
   async getChatLogs (params = {}) {
     const result = await request('/api/v1/messages', params)
     const unwrapped = unwrap(result, 'chatlog', normalizeMessageRow)

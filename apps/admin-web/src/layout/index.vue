@@ -30,7 +30,7 @@ import { getApiBase, setApiBase } from '@/api'
 import { isLocal,selectSource } from '@/data-sources/source'
 export default {name:'ArchiveLayout',components:{UiIcon,BrandMark,UiAvatar,UiDialog},setup(){
   const route=useRoute(),router=useRouter(),mobileOpen=ref(false),settingsOpen=ref(false),searchOpen=ref(false),globalKeyword=ref(''),globalInput=ref(null),endpoint=ref(''),settingsError=ref(''),theme=ref('light'),isMobile=ref(window.matchMedia('(max-width:760px)').matches)
-  const navigation=[{label:'工作空间',items:[{path:'/sources',label:'数据来源',icon:'folder'},{path:'/dashboard',label:'总览',icon:'grid'},{path:'/analytics',label:'数据分析',icon:'chart'}]},{label:'我的档案',items:[{path:'/chatlog',label:'聊天记录',icon:'chat'},{path:'/contacts',label:'联系人',icon:'user'},{path:'/chatrooms',label:'群聊',icon:'users'},{path:'/sessions',label:'会话',icon:'inbox'},{path:'/media',label:'媒体库',icon:'image'}]}]
+  const navigation=[{label:'工作空间',items:[{path:'/sources',label:'数据来源',icon:'folder'},{path:'/dashboard',label:'总览',icon:'grid'},{path:'/analytics',label:'数据分析',icon:'chart'}]},{label:'我的档案',items:[{path:'/chatlog',label:'聊天记录',icon:'chat'},{path:'/contacts',label:'联系人',icon:'user'},{path:'/chatrooms',label:'群聊',icon:'users'},{path:'/sessions',label:'会话',icon:'inbox'},{path:'/media',label:'媒体库',icon:'image'},{path:'/devices',label:'设备',icon:'server'}]}]
   const currentTitle=computed(()=>navigation.flatMap(g=>g.items).find(item=>item.path===route.path)?.label || '总览')
   const connectionLabel=computed(()=>demoEnabled?'演示数据':isLocal.value?'本地档案':workspace.loading?'正在连接':!workspace.ready?'尚未连接':Object.keys(workspace.errors).length===0?'已连接':Object.keys(workspace.errors).length===3?'连接失败':'部分可用')
   const go=path=>{router.push(path);mobileOpen.value=false}
