@@ -69,3 +69,44 @@ func TestRegisterDeviceRequiresAuth(t *testing.T) {
 		t.Fatalf("unauth register device: got %d want 401", code)
 	}
 }
+
+// heartbeatDevice 上报心跳并返回状态码与响应体。
+func heartbeatDevice(t *testing.T, ts *httptest.Server, token, deviceID string) (int, map[string]any) {
+	t.Helper()
+	code, body := doJSON(t, "POST", ts.URL+"/api/v1/devices/"+deviceID+"/heartbeat", nil, token)
+	m, _ := body.(map[string]any)
+	return code, m
+}
+
+func TestHeartbeatDevice(t *testing.T) {
+	ts := setupServer(t)
+	token := registerToken(t, ts, "hb@example.com")
+	fp := fmt.Sprintf("hb-fp-%d", time.Now().UnixNano())
+	_, m := registerDevice(t, ts, token, fp)
+	deviceID := m["device_id"].(string)
+
+	code, m := heartbeatDevice(t, ts, token, deviceID)
+	if code != http.StatusOK {
+		t.Fatalf("heartbeat: got %d body %v", code, m)
+	}
+	if m["ok"] != true || m["last_seen_at"] == "" {
+		t.Fatalf("heartbeat unexpected body: %v", m)
+	}
+}
+
+func TestHeartbeatUnknownDevice(t *testing.T) {
+	ts := setupServer(t)
+	token := registerToken(t, ts, "hb404@example.com")
+	code, m := heartbeatDevice(t, ts, token, "00000000-0000-0000-0000-000000000000")
+	if code != http.StatusNotFound {
+		t.Fatalf("heartbeat unknown device: got %d body %v want 404", code, m)
+	}
+}
+
+func TestHeartbeatRequiresAuth(t *testing.T) {
+	ts := setupServer(t)
+	code, _ := doJSON(t, "POST", ts.URL+"/api/v1/devices/00000000-0000-0000-0000-000000000000/heartbeat", nil, "")
+	if code != http.StatusUnauthorized {
+		t.Fatalf("unauth heartbeat: got %d want 401", code)
+	}
+}

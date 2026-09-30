@@ -89,3 +89,22 @@ func UpsertDevice(ctx context.Context, database *sql.DB, d *model.Device) (strin
 	}
 	return id, nil
 }
+
+// TouchDevice 心跳上报：刷新指定设备的 last_seen_at（租户内）。
+// 设备不存在或不属于该租户返回 (false, nil)（调用方映射 404）。
+func TouchDevice(ctx context.Context, database *sql.DB, tenantID, deviceID string) (bool, error) {
+	if tenantID == "" || deviceID == "" {
+		return false, fmt.Errorf("touch device: tenant_id/device_id required")
+	}
+	res, err := database.ExecContext(ctx,
+		`UPDATE devices SET last_seen_at = now(), updated_at = now()
+		 WHERE id = $1 AND tenant_id = $2`, deviceID, tenantID)
+	if err != nil {
+		return false, fmt.Errorf("touch device: %w", err)
+	}
+	n, err := res.RowsAffected()
+	if err != nil {
+		return false, fmt.Errorf("touch device rows: %w", err)
+	}
+	return n > 0, nil
+}

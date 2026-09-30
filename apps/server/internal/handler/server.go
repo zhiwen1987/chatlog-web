@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/audit"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/auth"
@@ -60,6 +61,9 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.listDevices(w, r)
 	case path == "/api/v1/devices/register" && r.Method == http.MethodPost:
 		s.registerDevice(w, r)
+	case strings.HasPrefix(path, "/api/v1/devices/") && strings.HasSuffix(path, "/heartbeat") && r.Method == http.MethodPost:
+		id := strings.TrimSuffix(strings.TrimPrefix(path, "/api/v1/devices/"), "/heartbeat")
+		s.heartbeat(w, r, id)
 	case path == "/api/v1/sources":
 		s.listSources(w, r)
 	case path == "/api/v1/audit":
