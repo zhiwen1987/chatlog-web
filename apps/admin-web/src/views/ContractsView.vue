@@ -65,11 +65,28 @@
     </div>
 
     <h2>媒体收据/清单对账</h2>
-    <div class="card-grid">
-      <div class="card" :class="reconcileOk ? 'ok' : 'warn'">
-        <strong>{{ reconcileOk ? '收据与清单一致' : '对账失败（不发假 ACK）' }}</strong>
-        <span v-if="reconcileErrors.length" class="error-text">{{ reconcileErrors.join('；') }}</span>
+    <div v-if="serverMedia.ready" class="card-grid">
+      <div v-for="(row, i) in serverMedia.rows" :key="i" class="card" :class="row.ok ? 'ok' : 'warn'">
+        <strong>{{ row.ok ? '收据与清单一致' : '对账失败（不发假 ACK）' }}</strong>
+        <span v-if="row.receipt" class="muted">receipt={{ row.receipt.receipt_id }} · obj={{ row.receipt.object_ref || '-' }}</span>
+        <span v-if="row.manifest" class="muted">manifest={{ row.manifest.manifest_id }} · state={{ row.manifest.state }}</span>
+        <span v-if="!row.manifest && row.receipt && row.receipt.object_ref" class="error-text">有对象收据但无对应清单</span>
+        <span v-if="row.errors.length" class="error-text">{{ row.errors.join('；') }}</span>
       </div>
+      <div v-if="!serverMedia.rows.length" class="card ok">
+        <strong>无服务端媒体收据</strong>
+        <span class="muted">待数据链上报媒体清单/收据</span>
+      </div>
+    </div>
+    <div v-else class="card" :class="reconcileOk ? 'ok' : 'warn'">
+      <template v-if="serverMedia.error">
+        <strong class="error-text">媒体对账服务端不可用</strong>
+        <span class="error-text">{{ serverMedia.error }}</span>
+      </template>
+      <template v-else>
+        <strong>{{ reconcileOk ? '收据与清单一致（本地演示）' : '对账失败（不发假 ACK）' }}</strong>
+        <span v-if="reconcileErrors.length" class="error-text">{{ reconcileErrors.join('；') }}</span>
+      </template>
     </div>
   </section>
 </template>
@@ -111,6 +128,22 @@ export default {
         })
         .catch((e) => {
           serverIntegrity.value = { ready: false, ok: false, error: e.message || String(e), verified: 0, inScope: 0, outOfScope: 0, total: 0, completenessText: '', generatedAt: '' }
+        })
+    }
+    // 服务端实时媒体收据/清单对账：Enterprise 模式且已登录才拉取；真实数据优先。
+    // 每行用 reconcile(receipt, manifest) 校验：对象有收据但无清单/非 stored → 拒假 ACK。
+    const serverMedia = ref({ ready: false, error: '', rows: [] })
+    if (enterprise.isEnterpriseMode() && enterprise.getEnterpriseToken()) {
+      enterprise.getMediaReceipts()
+        .then((result) => {
+          const rows = (result?.data || []).map((row) => {
+            const rec = reconcile(row.receipt, row.manifest)
+            return { receipt: row.receipt, manifest: row.manifest, ok: rec.ok, errors: rec.errors }
+          })
+          serverMedia.value = { ready: true, error: '', rows }
+        })
+        .catch((e) => {
+          serverMedia.value = { ready: false, error: e.message || String(e), rows: [] }
         })
     }
     // 合成展示数据：真实运行时由服务端下发的 integrity-report/license-claims/manifest 填充
@@ -160,7 +193,7 @@ export default {
     const reconcileOk = rec.ok
     const reconcileErrors = rec.errors
 
-    return { trustable, countErrorText, verified, inScope, outOfScope, total, completenessText, serverLicense, serverIntegrity, grants, reconcileOk, reconcileErrors }
+    return { trustable, countErrorText, verified, inScope, outOfScope, total, completenessText, serverLicense, serverIntegrity, serverMedia, grants, reconcileOk, reconcileErrors }
   },
 }
 </script>

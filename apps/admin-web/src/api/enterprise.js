@@ -93,6 +93,9 @@ export default {
   // integrity report 为对象响应（非数组）：原样透出 { counts, generated_at }。
   // 401/403 由 request 统一抛"拒绝访问"错误；服务端 5xx 抛 HTTP 状态错误。
   getIntegrityReport: () => request('/api/v1/integrity/report').then(r => r.data),
+  // media 收据+清单对账列表（对象数组）：返回 { data: [{receipt, manifest}] }。
+  // 401/403 由 request 统一抛"拒绝访问"错误；服务端 5xx 抛 HTTP 状态错误。
+  getMediaReceipts: () => request('/api/v1/media/receipts').then(r => unwrap(r, 'media', d => d)),
   async getChatLogs (params = {}) {
     const result = await request('/api/v1/messages', params)
     const unwrapped = unwrap(result, 'chatlog', normalizeMessageRow)

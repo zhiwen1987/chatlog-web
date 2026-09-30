@@ -118,3 +118,42 @@ test('getIntegrityReport propagates non-ok status as HTTP error', async () => {
   globalThis.fetch = async () => jsonResponse(500, {});
   await assert.rejects(() => m.default.getIntegrityReport(), /HTTP 500/);
 });
+
+test('getMediaReceipts unwraps receipt/manifest rows', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('tok');
+  globalThis.fetch = async () => jsonResponse(200, {
+    data: [{ receipt: { receipt_id: 'r1', object_ref: 'obj.1' }, manifest: { manifest_id: 'm1', state: 'stored' } }],
+    total: 1,
+  });
+  const r = await m.default.getMediaReceipts();
+  assert.equal(r.data.length, 1);
+  assert.equal(r.data[0].receipt.receipt_id, 'r1');
+  assert.equal(r.data[0].manifest.manifest_id, 'm1');
+  assert.equal(r.total, 1);
+});
+
+test('getMediaReceipts rejects 401/403 as auth error', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('bad');
+  globalThis.fetch = async () => jsonResponse(401, { error: 'unauthorized' });
+  await assert.rejects(() => m.default.getMediaReceipts(), /拒绝访问/);
+});
+
+test('getMediaReceipts rejects HTML body as not-data', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('tok');
+  globalThis.fetch = async () => ({
+    ok: true, status: 200,
+    headers: { get: () => 'text/html', entries: () => [] },
+    async text () { return '<!doctype html><html></html>'; },
+  });
+  await assert.rejects(() => m.default.getMediaReceipts(), /网页/);
+});
+
+test('getMediaReceipts propagates non-ok status as HTTP error', async () => {
+  freshLocalStorage();
+  m.default.setEnterpriseToken('tok');
+  globalThis.fetch = async () => jsonResponse(500, {});
+  await assert.rejects(() => m.default.getMediaReceipts(), /HTTP 500/);
+});
