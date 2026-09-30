@@ -1,15 +1,13 @@
 # 待办/待提醒清单
 
-## P0 · 用户未提交内容处置（阻塞三槽真实编码）
-- 用户选择: 保持现状，串行或只读并行；后期提醒
-- 内容: 59 处未提交/未跟踪（admin-web 图片/BASELINE、enterprise.go+test、desktop-client 全套、v4.3/、zip、docs 等）
-- 影响: M08.2 worktree 隔离未满足 → 真实编码需主工作树串行或用户确认基线
-- 下一步: 在用户确认前，只做只读复核/串行小项；此条保留到用户明确处理
+## P0 · 用户未提交内容处置 — ✅ 已解决（2026-09-30 授权提交基线）
+- 用户已授权提交：63 处未提交/未跟踪内容已提交为基线（main 578cc8e，见 HANDOFF）
+- worktree 隔离已解锁（wt-a/b/c 各 87 全绿）
 
-## P1 · 真实业务编码（部分已串行推进，跨层仍等待基线）
-- W02b 心跳纵切（server presence / Rust heartbeat / admin-web 设备页）
-- W03 数据链（ingestion / upload / oracle）
-- 需 worktree 或用户提交基线后方可三槽并行
+## P1 · 真实业务编码
+- ✅ W29-W31 心跳纵切已完成（server presence / Rust heartbeat / admin-web 设备页）
+  （见 workitems/W29-device-heartbeat.md、W30-device-presence-page.md、W31-desktop-heartbeat.md）
+- 🔄 W03 数据链（ingestion / upload / oracle）— 进行中（当前轮目标）
 
 ## P1.5 · 合同扩展（串行窗口，已全部收口）
 - ✅ W02 feature-catalog 骨架（已完成，见 workitems/W02-feature-catalog.md）
@@ -24,5 +22,5 @@
 - ✅ W10 校验器加固 required 一致性（已完成，见 workitems/W10-validator-hardening.md）：反证发现 required 缺失抓不到，修 verify_contract_schemas/verify_protocol_schemas 的 4 个 schema 检查；坏例 exit=1、恢复后全绿
 
 ## P2 · 后续提醒点
-- 提醒用户: 处理 59 处未提交内容以解锁三槽并行
-- 提醒用户: 安装插件状态（用户已说装好）
+- ✅ 未提交内容已处理（见 P0）
+- ✅ 插件状态：用户已确认装好
