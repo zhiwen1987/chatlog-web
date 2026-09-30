@@ -48,6 +48,8 @@ services:
       CHATLOG_ADDR: :8080
       DATABASE_URL: postgres://${POSTGRES_USER:-chatlog}:${POSTGRES_PASSWORD:-chatlog}@postgres:5432/${POSTGRES_DB:-chatlog}?sslmode=disable
       CHATLOG_JWT_SECRET: ${CHATLOG_JWT_SECRET:-dev-secret-change-me}
+      CHATLOG_LICENSE_VERIFY_KEY: ${CHATLOG_LICENSE_VERIFY_KEY:-}
+      CHATLOG_LICENSE_AUDIENCE: ${CHATLOG_LICENSE_AUDIENCE:-}
       CHATLOG_AUDIT_ENABLED: "true"
     depends_on:
       postgres:
