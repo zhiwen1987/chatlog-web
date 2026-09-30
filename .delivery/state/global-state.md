@@ -123,3 +123,13 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - node 94/94 PASS；Python 校验器（contract/protocol/feature/a14）全 OK
 - desktop cargo test 2/2 PASS（后台确认）
 - admin-web build 复验进行中
+
+## W35-W37 真实契约接入 + 前端上线（2026-10-01 00:48，main 7005716）
+- W35 integrity-report：服务端 GET /integrity/report（真实 messages 聚合，3 集成测试）+ 前端接入
+- W36 media：migration 005 表 + manifest/receipt 3 端点（4 集成测试）+ 前端对账接入
+- W37 部署：nginx admin-web 容器（8081）serve dist + /api 反代，端到端验证通过
+- 全量回归：Go 真实 PG 全 ok、node 102/102、lint 0/0、build DONE、Python 全 OK
+- 台账：W35-W37-real-contracts-and-deploy.md（已提交）
+
+## 下一步
+- 强验签：签发 JWS → 写 claims_jws → 配置 CHATLOG_LICENSE_VERIFY_KEY + audience → 重启 → 端到端验证
