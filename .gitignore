@@ -40,3 +40,8 @@ apps/desktop-client/target/
 
 # test artifacts
 apps/admin-web/.nyc_output/
+
+# serial-window: local caches & source bundle duplicates
+scripts/__pycache__/
+v4.3/
+微信聊天管理-完整资料包-v4.3-含AGENTS.zip

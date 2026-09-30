@@ -1,0 +1,21 @@
+# 项目派工合同，不是DSH的原生配置。
+id: null
+objective: null
+nonGoals: []
+ruleRefs: []
+acceptanceIds: []
+baseCommit: null
+specDigest: null
+contractDigest: null
+ownerSlot: null # A/B/C；最多3个执行槽
+assignmentGeneration: 1
+allowedPaths: []
+forbiddenPaths: []
+worktree: null
+testNamespace: null
+resourceBudget: null
+plannedTests: [] # 不可空着进入running
+rollbackOrForwardFix: null
+requiredApprovals: []
+status: proposed
+externalEffects: []

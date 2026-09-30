@@ -1,0 +1,2153 @@
+{
+  "schemaVersion": 1,
+  "purpose": "product_acceptance_template_not_test_evidence",
+  "runtimeImportAllowed": false,
+  "documentationVersion": "4.3",
+  "count": 268,
+  "items": [
+    {
+      "id": "DQ01",
+      "scenario": "相同传输键相同hash",
+      "expected": "复用receipt，不增消息/计数。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ02",
+      "scenario": "相同键不同hash",
+      "expected": "冲突，阻止确认越过，保留证据。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ03",
+      "scenario": "仅文本、时间、名字相似",
+      "expected": "只标候选，不自动删除。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ04",
+      "scenario": "上游ID为0/空/重复使用",
+      "expected": "禁止可信ID归并，降级观察身份。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ05",
+      "scenario": "来源库替换/ID回绕",
+      "expected": "新generation＋对账，不沿旧游标。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ06",
+      "scenario": "64位ID精度丢失",
+      "expected": "阻止错误发布；端到端字符串。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ07",
+      "scenario": "时间单位/时区不确定",
+      "expected": "raw保留、解析时间NULL/质量标记，不填当前时间。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ08",
+      "scenario": "发送者/账号身份未知",
+      "expected": "标unknown或隔离，不认定默认员工/“我”。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ09",
+      "scenario": "图片/语音/撤回等空正文",
+      "expected": "保留真实消息类型，不判垃圾。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ10",
+      "scenario": "未知结构/压缩字典/乱码",
+      "expected": "unsupported/隔离；不参与正文AI。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ11",
+      "scenario": "超限正文、炸弹文件、深层XML",
+      "expected": "中止展开，保留受限引用与错误，不假装完整。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ12",
+      "scenario": "附件缺失或重名",
+      "expected": "missing/ambiguous，不随机关联。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ13",
+      "scenario": "文件摘要/长度不符",
+      "expected": "隔离对象，不能ready。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ14",
+      "scenario": "快照/WAL不一致",
+      "expected": "拒绝发布不可信快照并记录缺口。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ15",
+      "scenario": "某次扫描没看到旧消息",
+      "expected": "不自动删除服务端历史。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ16",
+      "scenario": "旧快照重放已删除数据",
+      "expected": "命中deletion ledger后suppressed，禁止复活。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ17",
+      "scenario": "演示/测试混进生产",
+      "expected": "拒绝发布，切断统计与画像。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ18",
+      "scenario": "提示注入、HTML、CSV公式",
+      "expected": "当不可信数据；展示转义、导出防公式，不永久删原文。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ19",
+      "scenario": "AI证据不存在/越权/hash不一致",
+      "expected": "拒绝事实发布，不凭置信度认可。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ20",
+      "scenario": "人工事实与AI冲突",
+      "expected": "保留历史、标conflict，不覆盖人工锁。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ21",
+      "scenario": "聊天说付款但无交易证明",
+      "expected": "reported/unverified，不生造真实订单。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ22",
+      "scenario": "证据修订/删除/不可见",
+      "expected": "派生结果失效，按可见范围重算。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ23",
+      "scenario": "跨租户外键/非法来源",
+      "expected": "拒绝，不以“隔离区”为由保存无权获取内容。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DQ24",
+      "scenario": "parser或清洗规则升级",
+      "expected": "新projection version，对照校验再切换。",
+      "ruleRef": "开发规则.md#r12",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A01",
+      "scenario": "同一1万条消息重复上传100次",
+      "expected": "规范消息数不增加，receipt幂等，真实重复内容仍独立。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A02",
+      "scenario": "相同batch/event键但改payload",
+      "expected": "明确冲突，不覆盖原始内容、不推进连续ACK。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A03",
+      "scenario": "扫描、Outbox提交、上传、ACK各边界强杀",
+      "expected": "恢复后无永久丢失；不要求人工猜游标。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A04",
+      "scenario": "local_id低位历史回填/旧消息修改",
+      "expected": "完成对账后发现；来源缺能力时覆盖说明准确。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A05",
+      "scenario": "数据库换代/同路径换账号",
+      "expected": "新generation，不串账号、不误跳过历史。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A06",
+      "scenario": "主设备失联备机接管后旧主回来",
+      "expected": "fencing阻止旧epoch写；按规范键正确重放。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A07",
+      "scenario": "空正文图片/语音、未知日期、乱码",
+      "expected": "元数据保留且明确状态，不误删/不伪造。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A08",
+      "scenario": "演示数据/fixtures进入正式入口",
+      "expected": "被阻止，不进入真实统计/画像。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A09",
+      "scenario": "清洗中途崩溃、取消与回滚",
+      "expected": "旧可用投影不损坏，正确续跑，人工新改动不被覆盖。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A10",
+      "scenario": "双字中文、符号、emoji、跨chunk",
+      "expected": "与oracle集合/排序一致，strict零漏报误报。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A11",
+      "scenario": "10万页等价深分页、相同时间大量消息",
+      "expected": "无OFFSET放大，无跳漏/重复；cursor过期明确。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A12",
+      "scenario": "index停滞/修订/删除同时搜索",
+      "expected": "strict补差或精确job，不暗中返回不完整“complete”。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A13",
+      "scenario": "不同tenant/source/team读消息/画像/统计/count",
+      "expected": "无越权，summary不能夹带不可见消息信息。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A14",
+      "scenario": "权限撤销后用旧cursor、cache、job、resource",
+      "expected": "拒绝或安全失效，敏感下载策略符合声明。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A15",
+      "scenario": "50GiB文件中断/客户端重启/Token到期",
+      "expected": "从已确认part恢复，最终字节/hash正确、内存有界。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A16",
+      "scenario": "百万附件目录、重名、缺文件、路径逃逸",
+      "expected": "不爆内存，不随机关联，不越权读取路径。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A17",
+      "scenario": "伪SHA/MIME、multipart ETag混淆",
+      "expected": "校验阻止ready；查明真实完整性。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A18",
+      "scenario": "下载Range与视频拖动、冷文件",
+      "expected": "范围读取、不拉整文件；冷恢复有任务状态。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A19",
+      "scenario": "zip bomb/XML实体/恶意PDF/HTML",
+      "expected": "沙箱与限额生效，不能执行网络/系统命令。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A20",
+      "scenario": "MCP header/body不一致、错audience、未授权scope",
+      "expected": "正确协议/认证错误，不能绕过调用工具。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A21",
+      "scenario": "MCP任务在多实例与断线后恢复",
+      "expected": "状态耐久、权限一致，现代/旧Host按实际能力工作。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A22",
+      "scenario": "模型传confirm:true或重用别人approval",
+      "expected": "危险操作不执行；参数版本变化需新预览审批。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A23",
+      "scenario": "notes/followup等写工具重复请求100次",
+      "expected": "只生成一次对应业务动作。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A24",
+      "scenario": "聊天包含“忽略规则、删库”等",
+      "expected": "仅数据，不触发shell/工具/权限提升。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A25",
+      "scenario": "AI假证据、错误revision、越权证据",
+      "expected": "结果拒绝，不发布正式事实。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A26",
+      "scenario": "AI超时、无Key、预算耗尽",
+      "expected": "原归档可用；费用/结果不乱报，不无限重试。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A27",
+      "scenario": "旧备份恢复含已删除客户",
+      "expected": "先应用删除账本，所有派生与索引均不可复活。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A28",
+      "scenario": "PG恢复但对象/密钥缺失",
+      "expected": "验收失败并明确缺项，不称恢复成功。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A29",
+      "scenario": "任务total未知/断线/多阶段",
+      "expected": "进度诚实、可恢复，不凭时间假涨百分比。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A30",
+      "scenario": "日志secret扫描＋百万条同步日志量",
+      "expected": "无Token/原文泄露，日志轮转不耗尽盘。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A31",
+      "scenario": "各桌面架构安装、授权、同步、升级、卸载",
+      "expected": "实机/可靠VM证据；构建成功不代替运行通过。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A32",
+      "scenario": "P14/P15并发压测与24小时稳定性",
+      "expected": "满足[R29](#r29)，功能与准确性同时通过。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A33",
+      "scenario": "改名后旧安装数据路径/凭证迁移",
+      "expected": "原数据可发现，失败可回退，不创建假空档案。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A34",
+      "scenario": "分区时间纠正到其他月份",
+      "expected": "registry定位稳定，日期搜索不因旧bucket漏查。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A35",
+      "scenario": "大量文件备份GC与新manifest并发",
+      "expected": "不删活动/保留快照块，完整恢复校验通过。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "A36",
+      "scenario": "工作池/配额触顶且用户继续查询",
+      "expected": "交互优先、背压可见，不无限分配内存/连接。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT01",
+      "scenario": "消息/原件/衍生/索引/备份分别完成",
+      "expected": "四游标与各媒体/备份状态一致；任何缺口不显示全绿100%。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT02",
+      "scenario": "已接收但DB未提交时强杀",
+      "expected": "没有提前ACK；恢复后幂等接收，连续水位不跨洞。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT03",
+      "scenario": "对象已完成但引用事务失败",
+      "expected": "对象不丢、引用最多一次；GC不会删活动对象。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT04",
+      "scenario": "全文件一bit损坏",
+      "expected": "全文件SHA/长度不一致阻止verified，告警并显示损坏version。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT05",
+      "scenario": "来源上传中被替换",
+      "expected": "SOURCE_FILE_CHANGED或一致性未知状态明确；不把混合版本当原件成功。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT06",
+      "scenario": "同hash无对象权限",
+      "expected": "不能靠hash抢绑或读取已有文件；跨tenant无存在侧信道。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT07",
+      "scenario": "统计对象数不等于引用数",
+      "expected": "报告ref分母和唯一对象分母分别正确，不把缩略图算原图完成。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT08",
+      "scenario": "来源清单未知或显式排除",
+      "expected": "coverage_unknown/complete_with_exclusions明确，不编造完整来源。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT09",
+      "scenario": "URL到期与part重放",
+      "expected": "按权限续签，已确认part不重复计数，不重启全文件。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT10",
+      "scenario": "原始文件缺失与坏文件",
+      "expected": "保留消息和原始状态；不补造文件、不误删媒体消息。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT11",
+      "scenario": "完整性报告一致性",
+      "expected": "报告可复现，异常数与明细吻合，报告不是无约束ok。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INT12",
+      "scenario": "灾备旧数据与删除账本",
+      "expected": "已删数据不复活；未被删除共享引用可读；许可不阻止合法数据恢复。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED01",
+      "scenario": "图片原件和缩略图区分",
+      "expected": "原件字节不变；仅缩略图明确，不以放大缩略图冒充原图。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED02",
+      "scenario": "超大像素/动图处理",
+      "expected": "预算拒绝或受控处理，不击穿API，不删原件。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED03",
+      "scenario": "视频拖动与Range",
+      "expected": "读取实际所需range，不把整文件拉进API/RSS；拖动按SLO。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED04",
+      "scenario": "编码不兼容",
+      "expected": "显示待转码与作业；完成后可播放衍生件，原件不变。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED05",
+      "scenario": "多浏览器播放",
+      "expected": "真实浏览器矩阵记录；不支持的编码有明确降级，无假通过。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED06",
+      "scenario": "语音单实例播放",
+      "expected": "同一上下文只一路声音，卸载组件释放句柄和播放器。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED07",
+      "scenario": "SILK缺解码能力",
+      "expected": "原件可按权限保存；不支持状态明确，不能生成假转写。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED08",
+      "scenario": "语音转写可信范围",
+      "expected": "机器结果与原件分开，未知不编造，时间码/模型版本可追溯。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED09",
+      "scenario": "PDF/Office预览",
+      "expected": "安全静态预览隔离，宏/脚本不执行；文档页/文本定位准确。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED10",
+      "scenario": "加密文档/压缩炸弹",
+      "expected": "未知密码不强解，资源限制生效，无任意文件写/命令执行。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED11",
+      "scenario": "恶意MIME/HTML/SVG",
+      "expected": "以实际类型安全处理，管理origin不执行，nosniff/CSP生效。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED12",
+      "scenario": "扫描服务不可用",
+      "expected": "pending_scan不当clean，恢复后按job补扫并更新状态。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED13",
+      "scenario": "相同衍生请求并发",
+      "expected": "同recipe版本幂等，最多一个有效逻辑产物；无无限收费。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED14",
+      "scenario": "原件下载byte oracle",
+      "expected": "原件sha与source一致；衍生件另记录hash，不拿转码hash比较原件。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED15",
+      "scenario": "权限撤销中的播放器",
+      "expected": "按公开撤销策略拒绝新请求，UI不残留可见敏感内容。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "MED16",
+      "scenario": "损坏scrub与恢复",
+      "expected": "发现覆盖明确、修复后重新校验，未验证对象不silent ready。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS01",
+      "scenario": "Windows干净系统一键安装",
+      "expected": "无需终端/Node/Rust/Go，依赖检测完整，首启成功。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS02",
+      "scenario": "Windows离线/缺WebView2",
+      "expected": "离线依赖已签名可用，失败明确；不绕过系统安全。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS03",
+      "scenario": "ARM64/错误架构",
+      "expected": "应用架构真实，错误包在执行前被拒绝；安装器架构单列。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS04",
+      "scenario": "macOS签名与公证",
+      "expected": "真实签名/公证有效，未取得证书标blocked而不虚报正式可用。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS05",
+      "scenario": "Linux目标发行版",
+      "expected": "依赖自动处理或明确缺项，无托盘可控制/退出同步。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS06",
+      "scenario": "中文用户名与长路径",
+      "expected": "应用数据路径/源权限/日志均正确，无误删或路径逃逸。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS07",
+      "scenario": "首启授权不偷采",
+      "expected": "未授权不采集；配对与数据源授权与商业license分离。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS08",
+      "scenario": "更新篡改与回滚",
+      "expected": "签名/版本校验拒绝恶意包，失败保留旧版和Outbox。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS09",
+      "scenario": "更新时同步与migration",
+      "expected": "安全checkpoint恢复，schema兼容，无重复导入或丢ACK。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS10",
+      "scenario": "卸载与重装",
+      "expected": "默认保留本应用数据；显式清除有警示，源微信目录永不删除。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS11",
+      "scenario": "旧名迁移",
+      "expected": "原档案可找到，credentials不丢；不自动建立假空档案。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "INS12",
+      "scenario": "发行包泄漏检查",
+      "expected": "没有发行方签名私钥、生产secret、万能许可开关或客户无关后台。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC01",
+      "scenario": "伪造和篡改许可",
+      "expected": "签名失败，不扩大权益，不覆盖仍有效的旧快照。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC02",
+      "scenario": "算法与key混淆",
+      "expected": "固定算法/keyset策略拒绝，不进行任意外部取key。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC03",
+      "scenario": "错误产品与audience",
+      "expected": "typ/aud/issuer/product隔离有效，两类token不能互换。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC04",
+      "scenario": "激活nonce重放",
+      "expected": "重复同幂等结果稳定，参数不同拒绝，无新增激活slot。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC05",
+      "scenario": "并发超额激活",
+      "expected": "最多一个成功占位，不超额、不负计数。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC06",
+      "scenario": "本机license数据库篡改",
+      "expected": "必须重新验证签名与绑定，不把本地isActive布尔当真源。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC07",
+      "scenario": "续租重放/epoch回退",
+      "expected": "旧revision/epoch/seq不可恢复更多权益，状态原子更新。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC08",
+      "scenario": "正常断网宽限",
+      "expected": "按signed grace运行，到最终exp停止新增，既有数据仍可取回。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC09",
+      "scenario": "在线撤销传播",
+      "expected": "≤120秒目标生效，缓存版本一致，旧租约不能重新启用。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC10",
+      "scenario": "离线凭证绑定/到期",
+      "expected": "绑定与日期校验有效；不虚称离线立即撤销。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC11",
+      "scenario": "时间回拨与VM克隆边界",
+      "expected": "能检测的异常安全降级；明确完整VM回滚的残余风险，不宣称绝对阻断。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC12",
+      "scenario": "常规硬件升级",
+      "expected": "不因MAC/IP变化无理由吊销，正常迁移路径可用。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC13",
+      "scenario": "HA滚动重启",
+      "expected": "不重复计部署，node限额和独立身份正确，业务不中断。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC14",
+      "scenario": "授权到期的大文件",
+      "expected": "只完成原预留/安全收尾，之后暂停可续，无误ACK、无删数据。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC15",
+      "scenario": "许可到期的已ACK消息",
+      "expected": "保护通道完成已ACK耐久数据发布，不丢消息，不接新商业批次。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC16",
+      "scenario": "既有数据取回",
+      "expected": "合法既有数据可取回，所有数据ACL/审批仍在；不能靠保护通道越权。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC17",
+      "scenario": "许可key与数据key分离",
+      "expected": "可用客户持有材料恢复数据；没有license捆绑加密或自毁。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC18",
+      "scenario": "并发来源/容量配额",
+      "expected": "不超限、不重复收费，配额与物理磁盘统计分开。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC19",
+      "scenario": "许可不带数据权限",
+      "expected": "仍被ACL拒绝；客户管理员也不能签发商业license。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC20",
+      "scenario": "MCP绕过许可",
+      "expected": "发现与执行均按门禁，许可不可由模型confirm自批。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC21",
+      "scenario": "发证后台角色隔离",
+      "expected": "全部拒绝或需要独立批准，无私钥下载入口。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC22",
+      "scenario": "生产包拒绝开发issuer",
+      "expected": "拒绝dev信任根，不能环境变量切永久授权；测试构建隔离。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC23",
+      "scenario": "issuer不可用不拖慢查询",
+      "expected": "请求路径无公网授权调用，本地增量P95≤2ms目标，历史SLO维持。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC24",
+      "scenario": "许可元数据隐私",
+      "expected": "不含聊天、文件名/路径、附件hash、源账号明文ID或数据key。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC25",
+      "scenario": "密钥轮换与issuer恢复",
+      "expected": "信任链/版本和撤销正确，失败保留数据保护通道；不静默信任未知key。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "LIC26",
+      "scenario": "买断政策不误过期",
+      "expected": "已买断版本不因维护期结束失效；升级权益独立验收。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH01",
+      "scenario": "TB噪声来源公平",
+      "expected": "查询满足29章，小源不饥饿，正常负载Q3每5分钟有checkpoint。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH02",
+      "scenario": "坏视频不堵所有任务",
+      "expected": "沙箱slot与tenant预算隔离，控制面/查询不被占满。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH03",
+      "scenario": "多副本预算一致",
+      "expected": "全局预算不乘副本超限，任务paused_resource和Retry-After正确。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH04",
+      "scenario": "僵尸worker拒绝提交",
+      "expected": "fencing拒绝旧结果，无重复完成/额度扣减。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH05",
+      "scenario": "过载与磁盘低水位",
+      "expected": "暂停新增写/历史，不删未ACK；控制面可操作且回压可解释。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH06",
+      "scenario": "取消与安全checkpoint",
+      "expected": "合作取消在预算内生效；已提交副作用明确，不假称回滚。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH07",
+      "scenario": "恢复后的重试风暴",
+      "expected": "退避jitter和配额生效，无惊群耗尽DB或授权中心。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH08",
+      "scenario": "原件吞吐校准",
+      "expected": "受控空闲流水吞吐≥校准瓶颈70%目标；hash/错误/实际bytes同时记录。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH09",
+      "scenario": "授权查询热路径",
+      "expected": "无每条SQL/文件part联网验许可，无会话过期大量阻塞。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "SCH10",
+      "scenario": "长稳与日志预算",
+      "expected": "增长有界，无静默丢失，日志无secret，公平/正确性/SLO同时通过。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV01",
+      "scenario": "模块依赖静态检查",
+      "expected": "CI拒绝逆向依赖，公共安全服务不被adapter绕过。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV02",
+      "scenario": "扩展新数据源",
+      "expected": "无需改身份/权限核心；支持能力和覆盖真实显示。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV03",
+      "scenario": "扩展媒体处理器",
+      "expected": "资源/ACL/审计自动接入，不获得任意系统/网络权限。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV04",
+      "scenario": "扩展MCP只读工具",
+      "expected": "schema/scope/feature/risk强制声明，不复制SQL/业务逻辑。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV05",
+      "scenario": "版本与生成类型",
+      "expected": "不出现三套手工字段；不兼容变更有版本/迁移与ADR。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV06",
+      "scenario": "secret/SBOM/license审计",
+      "expected": "无prod secret/私钥；上游声明保留；FFmpeg构建条款明确。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV07",
+      "scenario": "覆盖率与负例质量",
+      "expected": "测试能捕获错误，核心≥90%/普通≥80%目标，不能靠覆盖率代替负例。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DEV08",
+      "scenario": "新feature接入一致性",
+      "expected": "同一Policy+Entitlement服务判定；无需散布授权if，所有路径一致。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT01",
+      "scenario": "首次启动与配对逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT02",
+      "scenario": "同步首页逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT03",
+      "scenario": "数据源向导逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT04",
+      "scenario": "传输队列逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT05",
+      "scenario": "资源与隐私设置逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT06",
+      "scenario": "日志与诊断逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT07",
+      "scenario": "更新与关于逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT08",
+      "scenario": "工作总览逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT09",
+      "scenario": "聊天工作台逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT10",
+      "scenario": "全局检索逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT11",
+      "scenario": "媒体库逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT12",
+      "scenario": "媒体详情逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT13",
+      "scenario": "客户目录逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT14",
+      "scenario": "客户与画像逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT15",
+      "scenario": "联系人逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT16",
+      "scenario": "群聊逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT17",
+      "scenario": "会话列表逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT18",
+      "scenario": "跟进任务逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT19",
+      "scenario": "分析与报表逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT20",
+      "scenario": "来源管理逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT21",
+      "scenario": "设备管理逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT22",
+      "scenario": "完整性中心逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT23",
+      "scenario": "任务与调度中心逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT24",
+      "scenario": "质量与清洗逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT25",
+      "scenario": "备份恢复逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT26",
+      "scenario": "可信审批逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT27",
+      "scenario": "审计中心逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT28",
+      "scenario": "用户角色与安全逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT29",
+      "scenario": "MCP连接管理逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT30",
+      "scenario": "存储与健康逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT31",
+      "scenario": "本部署商业授权逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT32",
+      "scenario": "客户端下载安装逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT33",
+      "scenario": "发行方许可证管理逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT34",
+      "scenario": "发行方激活与迁移逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT35",
+      "scenario": "发行方密钥与安全逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "UIT36",
+      "scenario": "发行方审计与健康逐页验收",
+      "expected": "真实连业务服务，功能/状态/权限/响应式与UI合同一致；无假数据/假成功/秘密泄漏。",
+      "ruleRef": "开发规则.md#r27",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB01",
+      "scenario": "在线正常、达到90/150秒边界",
+      "expected": "fake clock精确覆盖边界，UI与服务一致",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB02",
+      "scenario": "精确重复心跳100次",
+      "expected": "同receipt，不刷新lastSeen、不重复转换事件",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB03",
+      "scenario": "同seq不同hash、旧seq乱序到达",
+      "expected": "明确拒绝；新状态/水位不回退",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB04",
+      "scenario": "新epoch上线后旧进程重连",
+      "expected": "旧epoch拒绝，不抢新实例状态或采集lease",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB05",
+      "scenario": "休眠12小时、唤醒、断电重启",
+      "expected": "假定睡眠与观测状态分开；有效网络恢复后快速重新同步",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB06",
+      "scenario": "客户端时钟前跳/后跳一年",
+      "expected": "presence不采用客户端时间；许可按独立时间策略",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB07",
+      "scenario": "网络双向/单向断流、ACK丢失",
+      "expected": "单在途、有界重试；无错误数据ACK",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB08",
+      "scenario": "PG不可用、服务端观察链失效",
+      "expected": "readiness/unknown正确，无大批伪离线告警",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB09",
+      "scenario": "1000设备＋TB导入＋视频处理",
+      "expected": "P95/P99达[R38](#r38)目标，控制面不饿死，无OOM",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB10",
+      "scenario": "1000设备同时重连",
+      "expected": "jitter/限流/Retry-After有效，无授权中心惊群",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB11",
+      "scenario": "两API副本交错接包",
+      "expected": "权威lastSeq/epoch一致，无sticky session依赖",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB12",
+      "scenario": "heartbeats正常但job无进度",
+      "expected": "stalled单独可见，不显示“同步正常”",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB13",
+      "scenario": "客户端关闭UI但开启托盘；退出原生核",
+      "expected": "在线/离线符合实际进程，退出不遗留后台发送器",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB14",
+      "scenario": "license到期/授权中心断网",
+      "expected": "不等同设备凭证撤销；历史数据/诊断保护通道正常",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB15",
+      "scenario": "device credential撤销",
+      "expected": "新心跳和命令拒绝，无反复刷新/越权上传",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB16",
+      "scenario": "tenantA伪造tenantB device/session",
+      "expected": "403/404，无读写越权，无存在性泄漏",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB17",
+      "scenario": "payload超限、超长数组、64位溢出",
+      "expected": "明确拒绝，无入库/无内存放大",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB18",
+      "scenario": "原生核多窗口/重复启动",
+      "expected": "一套调度器；重复进程有可见处置，不重复采集",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB19",
+      "scenario": "过期命令/重复命令/旧配置版本",
+      "expected": "不执行或幂等返回，影响范围可审计",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB20",
+      "scenario": "下发任意shell/path/URL改写",
+      "expected": "schema/白名单/本地授权拒绝",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB21",
+      "scenario": "worker仍心跳但lease已被接管",
+      "expected": "旧attempt结果fencing拒绝",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB22",
+      "scenario": "日志/指标24小时运行",
+      "expected": "无逐包无限增长/高基数label；敏感内容不外泄",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB23",
+      "scenario": "draining滚动升级＋心跳在途",
+      "expected": "短事务正确完成或明确失败，可重试；无虚假ACK",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "HB24",
+      "scenario": "升级旧heartbeat入口",
+      "expected": "兼容到同service，同schema转换规则；不产生两套状态",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS01",
+      "scenario": "JSON中的int64极值/溢出",
+      "expected": "Go/Rust/TS合同一致，不经float损精度",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS02",
+      "scenario": "复合FK/RLS跨租户引用",
+      "expected": "DB约束+应用拒绝；非owner角色测试",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS03",
+      "scenario": "一个device两个活跃session并发创建",
+      "expected": "原子策略唯一新epoch，无MAX+1竞态",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS04",
+      "scenario": "同月/跨月/未知日期与时间纠正",
+      "expected": "registry定位、目录覆盖、keyset结果与oracle一致",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS05",
+      "scenario": "media_refs与兼容message_attachments",
+      "expected": "一个写真源，读取一致，无重复计数/清理",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS06",
+      "scenario": "job与ai_jobs/MCP Tasks",
+      "expected": "一个状态机；派生映射不各自改状态",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS07",
+      "scenario": "SQLite heartbeat与outbox崩溃",
+      "expected": "心跳状态恢复不能推进数据ACK",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "DS08",
+      "scenario": "migration旧版升级/新建/回填取消",
+      "expected": "数据与合同可恢复，已应用migration不改历史",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ01",
+      "scenario": "新增/修改源码静态扫描",
+      "expected": "格式/类型/lint/依赖方向/secret门禁通过",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ02",
+      "scenario": "强制网络/DB/codec异常",
+      "expected": "不返回假成功/空聊天，错误分类可定位",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ03",
+      "scenario": "race/取消/多实例租约竞争",
+      "expected": "无重复写/资源泄漏/僵尸发布",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ04",
+      "scenario": "新增函数与重复业务检查",
+      "expected": "无重复权限/去重实现；例外有理由不机械抽象",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ05",
+      "scenario": "覆盖与反例审查",
+      "expected": "改动覆盖目标满足，关键安全状态都有明确反例",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ06",
+      "scenario": "代码改变后复用旧pass",
+      "expected": "新鲜度门禁拒绝，重跑后才认可",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ07",
+      "scenario": "新增adapter/MCP工具/heartbeat策略",
+      "expected": "独立维护者按文档可完成，核心算法不被破坏",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "CQ08",
+      "scenario": "生成代码与版权来源",
+      "expected": "保留生成器/许可证信息；无伪造人类作者/提交",
+      "ruleRef": "开发规则.md#r41",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA01",
+      "scenario": "按功能授权",
+      "expected": "只开图片/文件不开放视频/语音原件；元数据保留",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA02",
+      "scenario": "前端伪造开关",
+      "expected": "客户改UI/localStorage/API字段不能自授grant",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA03",
+      "scenario": "独立期限",
+      "expected": "AI到期不误停聊天同步，精确时间边界生效",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA04",
+      "scenario": "依赖校验",
+      "expected": "依赖缺失不静默赠送，预览错误",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA05",
+      "scenario": "新功能默认",
+      "expected": "新catalog/new grant不自动运行，不赠未来feature",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA06",
+      "scenario": "MCP组合门禁",
+      "expected": "入口授权+目标功能+ACL同时检查",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA07",
+      "scenario": "保护通道",
+      "expected": "有权限历史完整取回，无ACL仍拒绝",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA08",
+      "scenario": "期限配额篡改",
+      "expected": "原版程序拒绝伪造/错绑定/未知issuer与签名算法",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA09",
+      "scenario": "schema兼容",
+      "expected": "v1到v2不隐式扩大/收回合同，防主版本降级",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA10",
+      "scenario": "时间缓存",
+      "expected": "授权在缓存TTL内到期也拒绝新增",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA11",
+      "scenario": "减额不删数据",
+      "expected": "超额仅限制新增、已有数据和用量不清空",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA12",
+      "scenario": "额度并发",
+      "expected": "最后一个额度跨副本只能预留一次",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA13",
+      "scenario": "续期用量",
+      "expected": "重签/换grant不清零周期用量",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA14",
+      "scenario": "媒体排除报告",
+      "expected": "排除/暂停/源缺失/verified明确区分",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA15",
+      "scenario": "大文件停用",
+      "expected": "商业有界排空；主动停传/ACL撤销不套grace",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA16",
+      "scenario": "外发撤销",
+      "expected": "新外发停止；已发费用与风险如实记录",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA17",
+      "scenario": "心跳传播",
+      "expected": "policy变化不推进ACK，不覆盖设备sequence",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA18",
+      "scenario": "公网热路径",
+      "expected": "普通查询/part无需逐请求向授权中心联网",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA19",
+      "scenario": "已发下载URL",
+      "expected": "不伪称停续发等于立即收回所有旧URL",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA20",
+      "scenario": "签名故障",
+      "expected": "未签不发布，无效新token不破坏有效旧状态",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA21",
+      "scenario": "跨页全选",
+      "expected": "本页与筛选全部不同，显示目标license/deployment数",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA22",
+      "scenario": "冻结筛选集合",
+      "expected": "预览后新匹配客户不进入批次",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA23",
+      "scenario": "多部署许可",
+      "expected": "同license去重，影响全部覆盖部署可见",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA24",
+      "scenario": "目标上限",
+      "expected": "超1000拒绝/显式分批，不能截断",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA25",
+      "scenario": "CSV与越权ID",
+      "expected": "无SQL/公式执行/重名匹配，越权不泄露",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA26",
+      "scenario": "增量授权不覆盖",
+      "expected": "grant_missing不更改已有期限额度和撤销状态",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA27",
+      "scenario": "批量续期固定值",
+      "expected": "重试不再次加天；before/after预览持久化",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA28",
+      "scenario": "永久和短期冲突",
+      "expected": "永久不加天，until不得缩短，不突破容器期",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA29",
+      "scenario": "模板冻结",
+      "expected": "审批后模板/catalog变化不扩大计划",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA30",
+      "scenario": "审批重放",
+      "expected": "选择/参数/impact变化令旧批准失效",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA31",
+      "scenario": "中途角色撤销",
+      "expected": "未发布项复核权限并停止",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA32",
+      "scenario": "重复execute100次",
+      "expected": "同键同参数最多一个逻辑批次，不同参数409",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA33",
+      "scenario": "人工并发变更",
+      "expected": "expected revision冲突不覆盖人工新变更",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA34",
+      "scenario": "独立事务",
+      "expected": "不锁全部客户长事务，部分失败如实报告",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA35",
+      "scenario": "停止或继续政策",
+      "expected": "严格按批准的stop_on_first_error/continue_independent执行",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA36",
+      "scenario": "重试失败项",
+      "expected": "不包含成功项，永久错误不无限重试",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA37",
+      "scenario": "签后崩溃",
+      "expected": "恢复查原签名/版本，不重复产生最终授权",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA38",
+      "scenario": "旧worker提交",
+      "expected": "fencing拒绝僵尸结果",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA39",
+      "scenario": "取消未开始项",
+      "expected": "已发布不谎称回滚，未发布按安全点停止",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA40",
+      "scenario": "补偿变更",
+      "expected": "新审批新revision，后续已改项冲突隔离",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA41",
+      "scenario": "发布vs应用",
+      "expected": "离线显示pending，不声称即时远程撤销",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA42",
+      "scenario": "进度计数",
+      "expected": "所有状态总和等于目标数，100%完成不等于全成功",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA43",
+      "scenario": "批量负载隔离",
+      "expected": "不阻塞租约续期或客户聊天控制面",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA44",
+      "scenario": "审计与导出",
+      "expected": "结果可查但无secret/token/聊天外传",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA45",
+      "scenario": "批量恢复接续",
+      "expected": "持久item/固定after恢复，不重置.delivery",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA46",
+      "scenario": "安全应急登录",
+      "expected": "SSO到期保留受控应急管理员",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA47",
+      "scenario": "原件类型检测",
+      "expected": "不只信扩展名，加密blob边界明确",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    },
+    {
+      "id": "FA48",
+      "scenario": "最终发布证据",
+      "expected": "所有产品验收须真实commit与证据，合同自检不得替代",
+      "ruleRef": "开发规则.md#r42",
+      "state": "not_tested",
+      "evidence": []
+    }
+  ]
+}

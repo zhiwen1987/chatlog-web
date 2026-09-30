@@ -1,0 +1,15 @@
+{
+  "transport": "streamable-http",
+  "serverName": "wechat-manager",
+  "url": "https://replace-with-verified-server.invalid/mcp",
+  "headers": {},
+  "toolCallTimeoutMs": 30000,
+  "failOnStartupError": true,
+  "maxInstructionBytes": 8192,
+  "reconnect": {
+    "enabled": true,
+    "initialDelayMs": 1000,
+    "maxDelayMs": 30000,
+    "maxAttempts": 5
+  }
+}

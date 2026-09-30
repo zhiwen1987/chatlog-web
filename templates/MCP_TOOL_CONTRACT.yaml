@@ -1,0 +1,25 @@
+# 应用层设计记录，不是SDK注册对象，不可直接导入运行时。
+name: null
+state: proposed
+normativeRuleRefs: []
+applicationService: null
+inputSchemaRef: null
+outputSchemaRef: null
+requiredScopes: []
+featureGrant: null
+objectAclRule: null
+approvalPolicy: null
+riskLevel: null
+annotations:
+  readOnlyHint: null
+  destructiveHint: null
+  idempotentHint: null
+  openWorldHint: null
+resultByteLimit: null
+pagination: null
+jobMapping: null
+idempotency: null
+errorCases: []
+protocolMatrix: []
+acceptanceEvidence: []
+registrationAllowed: false

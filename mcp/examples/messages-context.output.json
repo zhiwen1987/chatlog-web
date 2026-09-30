@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "messageId": "fixture-message-001",
+  "messages": [
+    {
+      "id": "fixture-message-001",
+      "revision": "1",
+      "sentAt": null,
+      "content": "明确标记的合成测试消息，不是真实客户聊天。",
+      "contentTruncated": false,
+      "decodeStatus": "decoded"
+    }
+  ],
+  "coverage": {
+    "status": "complete",
+    "scope": "authorized_published_context",
+    "asOf": "2026-09-29T00:00:00Z",
+    "reason": null
+  },
+  "truncated": false,
+  "nextCursor": null
+}

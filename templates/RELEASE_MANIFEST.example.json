@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "recordKind": "template_not_release",
+  "documentationVersion": "4.3",
+  "productId": "wechat-chat-manager",
+  "productVersion": null,
+  "sourceCommit": null,
+  "createdAt": null,
+  "artifacts": [],
+  "images": [],
+  "platformMatrix": [],
+  "migration": {
+    "from": null,
+    "to": null,
+    "entrypoint": null,
+    "rollbackPolicy": null
+  },
+  "healthEndpoints": [],
+  "compatibilityEvidence": [],
+  "sbomRef": null,
+  "signatureVerificationGuide": null,
+  "testEvidence": [],
+  "releaseVerified": false,
+  "instructions": "发行方填写真实制品名称、OS/架构、大小、SHA256、签名及固定镜像digest；空清单禁止安装/发布。"
+}

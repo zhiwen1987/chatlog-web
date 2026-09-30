@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "recordKind": "template_not_evidence",
+  "documentationVersion": "4.3",
+  "sourceCommit": null,
+  "contractDigest": null,
+  "engineeringReady": false,
+  "releaseVerified": false,
+  "modules": [
+    {
+      "id": "desktop",
+      "ruleRefs": "R02/R22/R38",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "ingest",
+      "ruleRefs": "R08/R09",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "media",
+      "ruleRefs": "R10",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "search",
+      "ruleRefs": "R11",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "customer-profile",
+      "ruleRefs": "R13",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "policy",
+      "ruleRefs": "R14",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "mcp",
+      "ruleRefs": "R15",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "jobs-heartbeat",
+      "ruleRefs": "R16/R38",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "backup",
+      "ruleRefs": "R19/R20",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "ui",
+      "ruleRefs": "R21",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "license-authority",
+      "ruleRefs": "R33/R42",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "handoff",
+      "ruleRefs": "R34/R43",
+      "state": "unknown",
+      "codePaths": [],
+      "evidence": [],
+      "blockers": []
+    }
+  ]
+}

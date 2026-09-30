@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "scope": "documentation_bundle_only",
+  "checksumPhase": "before_manifest_generation",
+  "stats": {
+    "files": 87,
+    "markdown": 65,
+    "json": 14,
+    "developmentSkills": 13,
+    "runtimeSkills": 4,
+    "designTools": 141
+  },
+  "errors": []
+}

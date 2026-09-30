@@ -3,6 +3,7 @@
     <PageHeading eyebrow="YOUR DATA, YOUR CONTROL" title="数据来源" description="连接自己的服务，或把已经准备好的数据库留在本机。"/>
     <div class="source-options">
       <section class="panel source-option" :class="{selected:!isLocal}"><UiIcon name="link" :size="24"/><h2>chatlog HTTP 服务</h2><p>保留原来的连接方式，读取你配置的数据服务。</p><label class="field"><span>服务地址</span><input v-model="endpoint" placeholder="留空使用同源代理"/></label><button class="btn" :disabled="busy || demoEnabled" @click="useHttp">保存并使用 HTTP</button></section>
+      <section class="panel source-option" :class="{selected:enterpriseMode}"><UiIcon name="server" :size="24"/><h2>Enterprise Server</h2><p>从 Chatlog Enterprise PostgreSQL 服务端读取联系人、会话与聊天（需登录）。</p><label class="field"><span>服务地址</span><input v-model="entEndpoint" placeholder="http://127.0.0.1:8080"/></label><label class="field"><span>访问令牌</span><input v-model="entToken" type="password" placeholder="Bearer Token"/></label><button class="btn" :disabled="busy || demoEnabled" @click="useEnterprise">保存并使用 Enterprise</button></section>
       <section class="panel source-option" :class="{selected:isLocal}"><UiIcon name="folder" :size="24"/><h2>本地微信 4.x 数据库</h2><p>只读明文 SQLite，不提取密钥、不启动外部工具、不上传聊天数据。</p><p class="source-status">{{ localState.ready ? localState.report?.name : '还没有本地档案' }}</p><button v-if="localState.ready" class="btn" :disabled="busy || demoEnabled" @click="activateLocal">{{ isLocal ? '重新读取本地档案' : '使用本地档案' }}</button><button v-else class="btn" :disabled="busy || demoEnabled" @click="refreshStatus">检查已保存的档案</button></section>
     </div>
     <section class="panel source-import">
@@ -38,18 +39,21 @@ import { isLocal, selectSource } from '@/data-sources/source'
 import { localState,localRequest,importLocal,cancelImport } from '@/data-sources/local-client'
 import { clearAttachments,importAttachmentFolder } from '@/data-sources/attachments'
 import { getApiBase,setApiBase } from '@/api'
+import enterprise from '@/api/enterprise'
 import { resetWorkspace,loadWorkspace } from '@/lib/workspace'
 import { demoEnabled } from '@/lib/demo'
 import { number,download } from '@/lib/data'
 export default {
   name:'Sources',components:{PageHeading,UiIcon},setup(){
     const files=ref([]),name=ref('我的聊天档案'),selfId=ref(''),consent=ref(false),snapshotConfirmed=ref(false),confirmClear=ref(false),endpoint=ref(getApiBase()),error=ref(''),success=ref(''),working=ref(false)
+    const enterpriseMode=ref(enterprise.isEnterpriseMode()),entEndpoint=ref(enterprise.getEnterpriseBase()),entToken=ref(enterprise.getEnterpriseToken())
     const busy=computed(()=>working.value || localState.importing)
     const run=async fn=>{error.value='';success.value='';working.value=true;try{await fn()}catch(e){error.value=e.message}finally{working.value=false}}
     const reload=async()=>{resetWorkspace();await loadWorkspace(true)}
     const refreshStatus=()=>run(async()=>{const result=await localRequest('status');selfId.value=result.selfId || ''})
     const activateLocal=()=>run(async()=>{await selectSource('local');await reload();success.value='已切换到本地档案。'})
-    const useHttp=()=>run(async()=>{setApiBase(endpoint.value);await selectSource('http');await reload();success.value='已切换到 HTTP 数据服务。'})
+    const useHttp=()=>run(async()=>{setApiBase(endpoint.value);enterprise.setEnterpriseMode(false);await selectSource('http');await reload();success.value='已切换到 HTTP 数据服务。'})
+    const useEnterprise=()=>run(async()=>{enterprise.setEnterpriseBase(entEndpoint.value);enterprise.setEnterpriseToken(entToken.value);enterprise.setEnterpriseMode(true);await selectSource('http');await reload();success.value='已切换到 Enterprise Server。'})
     const pick=event=>{files.value=Array.from(event.target.files || []);event.target.value=''}
     const startImport=async()=>{
       error.value='';success.value='';const previous=localState.archiveId
@@ -66,7 +70,7 @@ export default {
     const preventLeave=event=>{if(localState.importing){event.preventDefault();event.returnValue=''}}
     onMounted(()=>{window.addEventListener('beforeunload',preventLeave);if(!demoEnabled)refreshStatus()})
     onBeforeUnmount(()=>window.removeEventListener('beforeunload',preventLeave))
-    return {files,name,selfId,consent,snapshotConfirmed,confirmClear,endpoint,error,success,busy,isLocal,localState,demoEnabled,number,pick,startImport,cancelImport,refreshStatus,activateLocal,useHttp,saveIdentity,pickAttachments,clearLocal,saveReport}
+    return {files,name,selfId,consent,snapshotConfirmed,confirmClear,endpoint,error,success,busy,isLocal,localState,demoEnabled,number,pick,startImport,cancelImport,refreshStatus,activateLocal,useHttp,useEnterprise,enterpriseMode,entEndpoint,entToken,saveIdentity,pickAttachments,clearLocal,saveReport}
   }
 }
 </script>

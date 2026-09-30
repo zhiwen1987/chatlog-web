@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MessagesContextInputExample",
+  "description": "应用层合同样例；不是协议Schema或已实现API",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "messageId"
+  ],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "before": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 200,
+      "default": 20
+    },
+    "after": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 200,
+      "default": 20
+    }
+  }
+}

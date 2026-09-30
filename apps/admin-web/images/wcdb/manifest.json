@@ -1,7 +1,7 @@
 {
   "fictional": true,
   "renderer": "production dist + actual SQLite WASM + OPFS",
-  "sourceCommit": "69ed8f37ec172bc21a7e5e8ce83354ae8cac2d01",
+  "sourceCommit": "067c023e108af6d62ebc42a544d80505535d4a4b",
   "checks": [
     "real SQLite import: two message shards, contacts, sessions, compression report",
     "historical archive extent is recorded",

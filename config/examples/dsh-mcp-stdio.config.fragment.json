@@ -1,0 +1,17 @@
+{
+  "transport": "stdio",
+  "serverName": "wechat-local",
+  "command": "__VERIFIED_LOCAL_BRIDGE_EXECUTABLE__",
+  "args": [],
+  "env": {},
+  "cwd": "__VERIFIED_WORKSPACE__",
+  "toolCallTimeoutMs": 30000,
+  "failOnStartupError": true,
+  "maxInstructionBytes": 8192,
+  "reconnect": {
+    "enabled": true,
+    "initialDelayMs": 1000,
+    "maxDelayMs": 30000,
+    "maxAttempts": 5
+  }
+}

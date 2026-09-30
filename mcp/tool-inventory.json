@@ -1,0 +1,997 @@
+{
+  "schemaVersion": 1,
+  "purpose": "design_inventory_only",
+  "runtimeImportAllowed": false,
+  "documentationVersion": "4.3",
+  "normativeSource": "开发规则.md#r15",
+  "toolCount": 141,
+  "tools": [
+    {
+      "name": "admin_role_assign",
+      "domain": "管理",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "admin_role_revoke",
+      "domain": "管理",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "admin_user_create",
+      "domain": "管理",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "admin_user_get",
+      "domain": "管理",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "admin_user_update",
+      "domain": "管理",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "admin_users_list",
+      "domain": "管理",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "ai_jobs_cancel",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "ai_jobs_get",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "ai_jobs_list",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "ai_jobs_retry",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_activity",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_conversation_trends",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_customer_growth",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_overview",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_product_interest",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_report_generate",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_response_time",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "analytics_team",
+      "domain": "分析",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "audit_get",
+      "domain": "审计/团队",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "audit_search",
+      "domain": "审计/团队",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "backup_get",
+      "domain": "备份",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "backup_list",
+      "domain": "备份",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "backup_restore_preview",
+      "domain": "备份",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "backup_restore_start",
+      "domain": "备份",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "backup_status",
+      "domain": "备份",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "backup_verify",
+      "domain": "备份",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "contacts_get",
+      "domain": "联系人",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "contacts_identity_candidates",
+      "domain": "联系人",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "contacts_list",
+      "domain": "联系人",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "contacts_search",
+      "domain": "联系人",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "conversations_get",
+      "domain": "会话",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "conversations_list",
+      "domain": "会话",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "conversations_messages",
+      "domain": "会话",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "conversations_participants",
+      "domain": "会话",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "conversations_summary_get",
+      "domain": "会话",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "conversations_summary_refresh",
+      "domain": "会话",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customer_notes_add",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customer_notes_list",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_assign",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_create",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_get",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_link_identity",
+      "domain": "身份关联",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_list",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_merge",
+      "domain": "身份关联",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_merge_preview",
+      "domain": "身份关联",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_search",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_split",
+      "domain": "身份关联",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_split_preview",
+      "domain": "身份关联",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_tags_add",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_tags_remove",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_unlink_identity",
+      "domain": "身份关联",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "customers_update",
+      "domain": "客户",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "data_delete_customer",
+      "domain": "删除",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "data_delete_customer_preview",
+      "domain": "删除",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "data_deletion_status",
+      "domain": "删除",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "devices_disable",
+      "domain": "设备",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "devices_get",
+      "domain": "设备",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "devices_health",
+      "domain": "设备",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "devices_list",
+      "domain": "设备",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "devices_pause_sync",
+      "domain": "设备",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "devices_resume_sync",
+      "domain": "设备",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "devices_sync_now",
+      "domain": "设备",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "integrity_report_get",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "jobs_cancel",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "jobs_events",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "jobs_get",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "jobs_list",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "jobs_retry",
+      "domain": "作业",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "license_activation_request_create",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "license_entitlements_get",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "license_lease_refresh",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "license_status",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_derivatives_list",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_extraction_get",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_extraction_start",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_get",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_integrity_get",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_integrity_verify",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_metadata",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_preview_get",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_restore_request",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_search",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_signed_url",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_transcode_start",
+      "domain": "多媒体与商业许可",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_transcript_generate",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "media_transcript_get",
+      "domain": "媒体",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "messages_context",
+      "domain": "消息",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "messages_count",
+      "domain": "消息",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "messages_export",
+      "domain": "消息",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "messages_get",
+      "domain": "消息",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "messages_list",
+      "domain": "消息",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "messages_search",
+      "domain": "消息",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_evidence_get",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_fact_approve",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_fact_correct",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_fact_get",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_fact_reject",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_facts_list",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_get",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_refresh",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_snapshot_get",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "profile_snapshots_list",
+      "domain": "画像",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "quality_clean_apply",
+      "domain": "质量",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "quality_clean_preview",
+      "domain": "质量",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "quality_clean_rollback",
+      "domain": "质量",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "quality_issue_get",
+      "domain": "质量",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "quality_issues_list",
+      "domain": "质量",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "quality_overview",
+      "domain": "质量",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "quality_reparse",
+      "domain": "质量",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sales_customer_next_action",
+      "domain": "跟进",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sales_followup_complete",
+      "domain": "跟进",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sales_followup_create",
+      "domain": "跟进",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sales_followups_list",
+      "domain": "跟进",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sales_opportunities_list",
+      "domain": "跟进",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "search_coverage_get",
+      "domain": "全局搜索",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "search_global",
+      "domain": "全局搜索",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "search_index_health",
+      "domain": "运维",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "search_job_start",
+      "domain": "全局搜索",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sources_get",
+      "domain": "来源",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sources_health",
+      "domain": "来源",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sources_list",
+      "domain": "来源",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sources_pause",
+      "domain": "来源",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sources_rescan",
+      "domain": "来源",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sources_resume",
+      "domain": "来源",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sources_schema",
+      "domain": "来源",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "storage_usage_get",
+      "domain": "运维",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_account_status",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_checkpoint_get",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_dead_letters",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_errors",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_reconcile",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_reconcile_preview",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_retry",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "sync_status",
+      "domain": "同步",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "system_capabilities",
+      "domain": "系统",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "system_health",
+      "domain": "系统",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "system_me",
+      "domain": "系统",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "system_metrics_summary",
+      "domain": "运维",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "teams_get",
+      "domain": "审计/团队",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "teams_list",
+      "domain": "审计/团队",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    },
+    {
+      "name": "teams_members",
+      "domain": "审计/团队",
+      "state": "specified_not_implemented_by_this_bundle",
+      "registrationAllowed": false,
+      "contractStatus": "must_be_completed_and_verified_in_product_repository"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "documentationVersion": "4.3",
+  "projectName": "微信聊天管理",
+  "author": "冰浪",
+  "email": "zhiwen2528@163.com",
+  "copyright": "© 2026 进源网络（新增及二次开发部分）",
+  "validationScope": "documentation_and_synthetic_examples_only",
+  "executedAtUtc": "2026-09-29T05:34:05.787675+00:00",
+  "environment": {
+    "os": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.5"
+  },
+  "validatorUnitTests": {
+    "count": 41,
+    "exitCode": 0,
+    "log": "validator-tests.log"
+  },
+  "syntheticSchemaExamples": {
+    "count": 17,
+    "failed": 0,
+    "exitCode": 0,
+    "report": "contract-examples.json"
+  },
+  "developmentSkills": 13,
+  "runtimeSkills": 4,
+  "designMcpTools": 141,
+  "productAcceptanceRows": 268,
+  "productValidation": "not_tested",
+  "productReleaseVerified": false,
+  "userDshSkillDiscovery": "not_tested",
+  "userDshThreeSubagentsStarted": false,
+  "sourceInspection": "source README read-only; no full repository build/audit",
+  "testedCode": [
+    {
+      "path": "scripts/verify_delivery.py",
+      "sha256": "463e6fd6e7052b134435fc3042ec30f8c73dddc683bf72b8794117eb1149f956"
+    },
+    {
+      "path": "scripts/verify_contract_examples.py",
+      "sha256": "23625dd4f45fc7c8c125f1083550db10dedb3067b013a4580ea37516da1730be"
+    },
+    {
+      "path": "tests/test_verify_delivery.py",
+      "sha256": "158f60860f61d083eb7c00d0ce752fcf25e049e46d0127d1406e8f585a183535"
+    }
+  ]
+}

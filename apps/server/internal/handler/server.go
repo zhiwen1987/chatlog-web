@@ -59,6 +59,12 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.listSources(w, r)
 	case path == "/api/v1/audit":
 		s.listAudit(w, r)
+	case path == "/api/v1/contacts":
+		s.listContactsV2(w, r)
+	case path == "/api/v1/conversations":
+		s.listConversationsV2(w, r)
+	case path == "/api/v1/messages":
+		s.listMessagesV2(w, r)
 	default:
 		http.NotFound(w, r)
 	}

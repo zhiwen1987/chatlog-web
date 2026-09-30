@@ -1,0 +1,75 @@
+{
+  "scope": "synthetic_contract_examples_only",
+  "count": 17,
+  "failed": 0,
+  "cases": [
+    {
+      "case": "input_schema_valid",
+      "passed": true
+    },
+    {
+      "case": "output_schema_valid",
+      "passed": true
+    },
+    {
+      "case": "input_example",
+      "passed": true
+    },
+    {
+      "case": "output_example",
+      "passed": true
+    },
+    {
+      "case": "tenant_field_rejected",
+      "passed": true
+    },
+    {
+      "case": "fraction_before_rejected",
+      "passed": true
+    },
+    {
+      "case": "negative_before_rejected",
+      "passed": true
+    },
+    {
+      "case": "large_before_rejected",
+      "passed": true
+    },
+    {
+      "case": "boolean_before_rejected",
+      "passed": true
+    },
+    {
+      "case": "missing_message_id_rejected",
+      "passed": true
+    },
+    {
+      "case": "extra_output_field_rejected",
+      "passed": true
+    },
+    {
+      "case": "numeric_revision_rejected",
+      "passed": true
+    },
+    {
+      "case": "invalid_asof_rejected",
+      "passed": true
+    },
+    {
+      "case": "too_many_messages_rejected",
+      "passed": true
+    },
+    {
+      "case": "unknown_decode_status_rejected",
+      "passed": true
+    },
+    {
+      "case": "schema_alone_does_not_check_sum",
+      "passed": true
+    },
+    {
+      "case": "service_semantics_reject_sum",
+      "passed": true
+    }
+  ]
+}

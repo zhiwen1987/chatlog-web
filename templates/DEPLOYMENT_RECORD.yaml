@@ -1,0 +1,26 @@
+# 部署事实记录模板，不是Compose、DSH或软件原生配置。
+schemaVersion: 1
+recordStatus: not_tested
+deploymentKind: null # customer-server / desktop / issuer
+environment: null
+owner: null
+sourceCommit: null
+productVersion: null
+documentationVersion: "4.3"
+os: null
+architecture: null
+artifactManifestRef: null
+artifactDigestVerified: false
+signatureVerified: false
+migrationBefore: null
+migrationAfter: null
+migrationApprovalRef: null
+services: [] # 名称、固定镜像digest、健康入口、卷位置、只记录非敏感摘要
+secretCustodyRefs: [] # 仅保管系统引用，不写密码或密钥
+checks: [] # 真实命令、退出码、代码/合同摘要、证据路径
+backupSetRef: null
+restoreDrillEvidenceRef: null
+rollBackConstraints: []
+knownIssues: []
+signedOffBy: []
+releaseVerified: false
