@@ -58,6 +58,8 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.listUsers(w, r)
 	case path == "/api/v1/devices":
 		s.listDevices(w, r)
+	case path == "/api/v1/devices/register" && r.Method == http.MethodPost:
+		s.registerDevice(w, r)
 	case path == "/api/v1/sources":
 		s.listSources(w, r)
 	case path == "/api/v1/audit":
