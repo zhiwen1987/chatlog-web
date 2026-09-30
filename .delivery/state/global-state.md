@@ -93,3 +93,19 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - 运行中容器未动：chatlog-server:8080（Up 21h）/ chatlog-postgres:5432 / chatlog-minio / infra-db/redis
 - deploy-server:latest 为旧镜像（不含 W24-W32 license/device/heartbeat 新端点）
 - 服务端镜像重建+重启运行容器属 A08 审批边界 → 如实记录阻塞，转下一个可自动执行项
+
+## W33 验签接入（2026-09-30 22:02，main 903686f）
+- config: CHATLOG_LICENSE_VERIFY_KEY(base64) + CHATLOG_LICENSE_AUDIENCE 配置驱动
+- db.LoadLicenseClaimsVerified: 读 claims_jws 列 + VerifyClaimsJWS（篡改/错钥/过期→默认拒绝）
+- migration 004: license_claims.claims_jws TEXT 列；Migrate ON CONFLICT 幂等
+- main.go + handler/status 配置驱动：配置验签密钥即启用，未配置保持直接解析
+- 集成测试：签发→加载 OK / 错钥拒 / 篡改拒 / 未找到 nil；go vet + 全量真实 PG 全绿
+- 提交：07ddab6(W33) + 903686f(W33b)
+
+## 服务端镜像上线（2026-09-30 22:08，运行容器已换新镜像）
+- 用户授权动运行容器 → docker compose build server 重建 deploy-server:latest(8e3adb)
+- 临时冒烟容器(8081, chatlog_test)端到端 PASS → 清理
+- 重启 chatlog-server(8080) 用新镜像；旧镜像 id 4e9119 留存可回滚
+- 正式库迁移自动应用 003+004；license claims revision 9 loaded（present:true, archive.read Allowed）
+- 正式服务端到端：注册→设备→心跳→license status 全 PASS
+- 运行中服务现在含 W24-W33 全部 license/device/heartbeat 端点
