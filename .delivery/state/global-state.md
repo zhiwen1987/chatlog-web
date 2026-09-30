@@ -51,3 +51,15 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - 跨层真实业务编码（心跳/数据链 ingestion 需 Go/Rust）：无工具链，编译不可验证；
   当前三槽改做 node/文档（用户已确认）
 - 真实产品测试/PG/发证/TB 待后续阶段
+
+## 跨层 Go 授权链串行成果（W23-W29，全自动推进，2026-09-30 18:40）
+- 已装 Go 工具链：/tmp/go/bin/go（go1.26.0 darwin/amd64），go build/vet 可验证
+- W23 Go 授权核心层（model license HasFeature/MissingDeps + auth CheckFeature，10 单测）
+- W24-W27 license 授权链端到端：claims 持久化(002)+GET status+POST license+
+  status 实时查库（修快照缺陷），**真实 PG 集成测试全绿**
+- W28 设备注册端点（POST /devices/register，幂等 upsert，3 集成测试 PASS）
+- W29 设备心跳端点（POST /devices/{id}/heartbeat，复用 last_seen_at，
+  migration 003 索引，4 集成测试 PASS，全量 go test 真实 PG 全绿）
+- 当前：main eeee826，工作树干净
+- 运行中的 docker 容器（chatlog-server:8080 / chatlog-postgres:5432）未动，
+  新代码以临时实例连真实 PG 验证（符合 A08 动运行容器需审批）
