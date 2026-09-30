@@ -2,7 +2,8 @@ package handler
 
 // license.go — 许可状态只读端点（R42.8）。
 // GET /api/v1/license/status：返回当前许可 claims v2 的授权状态摘要。
-// 只做展示判定（CheckFeature），不验证 JWS 签名（R42.8：需签发方）。
+// 只做展示判定（CheckFeature）。配置了 LicenseVerifyKey 时实时查库并 JWS 验签，
+// 验签失败/篡改按默认拒绝；未配置保持直接解析（兼容现状）。
 
 import (
 	"net/http"
@@ -20,8 +21,13 @@ func (s *Server) licenseStatus(w http.ResponseWriter, r *http.Request) {
 	var c *model.Claims
 	if s.DB != nil {
 		var err error
-		c, err = db.LoadLicenseClaims(r.Context(), s.DB, s.DeploymentID)
+		if len(s.LicenseVerifyKey) > 0 {
+			c, err = db.LoadLicenseClaimsVerified(r.Context(), s.DB, s.DeploymentID, s.LicenseVerifyKey, s.LicenseExpectedAud)
+		} else {
+			c, err = db.LoadLicenseClaims(r.Context(), s.DB, s.DeploymentID)
+		}
 		if err != nil {
+			// 验签失败/篡改按默认拒绝：不暴露签名细节，返回 present=false 语义。
 			writeErr(w, http.StatusInternalServerError, "license lookup failed")
 			return
 		}

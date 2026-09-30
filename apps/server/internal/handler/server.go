@@ -18,6 +18,11 @@ type Deps struct {
 	TokenTTLMin  int
 	License      *model.Claims // 许可 claims v2（可空；nil=默认拒绝，R42.8）
 	DeploymentID string
+
+	// LicenseVerifyKey 可选：配置后 licenseStatus 走 JWS 验签实时查库；
+	// 未配置保持直接解析（兼容现状）。
+	LicenseVerifyKey    []byte
+	LicenseExpectedAud  string
 }
 
 // Server 组装所有 HTTP 路由。
