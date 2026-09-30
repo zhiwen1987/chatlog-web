@@ -109,3 +109,17 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - 正式库迁移自动应用 003+004；license claims revision 9 loaded（present:true, archive.read Allowed）
 - 正式服务端到端：注册→设备→心跳→license status 全 PASS
 - 运行中服务现在含 W24-W33 全部 license/device/heartbeat 端点
+
+## W34 前端接入真实 license status（2026-09-30 22:45，main 510e573）
+- enterprise.getLicenseStatus()：GET /api/v1/license/status，对象原样透出
+- ContractsView：服务端实时许可区块（present/licensee/deployment/features），真实数据优先
+  - 未接入/未登录/错误态显式展示；本地合成 claims 标注"演示对照"不替代判定
+- tests/enterprise.test.mjs：4 测试（200 解包/401/HTML 拒绝/500）
+- 证据：node 94/94、lint 0 errors（14 存量 warnings）、vue build OK、提交 510e573
+- 台账：W34-contracts-real-license.md（898edb2）
+
+## W34 全量回归（2026-09-30 22:5x，main 898edb2）
+- Go 真实 PG 全 ok（auth/config/db/handler/migration/model）
+- node 94/94 PASS；Python 校验器（contract/protocol/feature/a14）全 OK
+- desktop cargo test 2/2 PASS（后台确认）
+- admin-web build 复验进行中
