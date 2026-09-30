@@ -173,3 +173,116 @@ func LoadIntegrityReport(ctx context.Context, database *sql.DB, tenantID string)
 	}
 	return &c, nil
 }
+
+// SaveMediaManifest 持久化媒体清单（R42.7）。
+// 按 (tenant_id, manifest_id) 幂等 upsert：重复上报同 manifest_id 更新为最新（state 可迁移）。
+// manifest_json 保留原始协议对象，供前端 manifestErrors 消费。
+func SaveMediaManifest(ctx context.Context, database *sql.DB, tenantID string, m *model.MediaManifest) error {
+	if tenantID == "" || m.ManifestID == "" || m.ObjectRef == "" {
+		return fmt.Errorf("save media manifest: tenant_id/manifest_id/object_ref required")
+	}
+	raw, err := json.Marshal(m)
+	if err != nil {
+		return fmt.Errorf("save media manifest: marshal: %w", err)
+	}
+	_, err = database.ExecContext(ctx, `
+		INSERT INTO media_manifests (tenant_id, manifest_id, object_ref, sha256, media_type, state, manifest_json)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		ON CONFLICT (tenant_id, manifest_id) DO UPDATE SET
+			object_ref = EXCLUDED.object_ref,
+			sha256 = EXCLUDED.sha256,
+			media_type = EXCLUDED.media_type,
+			state = EXCLUDED.state,
+			manifest_json = EXCLUDED.manifest_json,
+			updated_at = now()`,
+		tenantID, m.ManifestID, m.ObjectRef, m.SHA256, m.MediaType, m.State, raw)
+	if err != nil {
+		return fmt.Errorf("save media manifest: %w", err)
+	}
+	return nil
+}
+
+// SaveMediaReceipt 持久化媒体收据（R42.7）。
+// 按 (tenant_id, receipt_id) 幂等 upsert：重复上报同 receipt_id 更新为最新。
+func SaveMediaReceipt(ctx context.Context, database *sql.DB, tenantID string, r *model.MediaReceipt) error {
+	if tenantID == "" || r.ReceiptID == "" {
+		return fmt.Errorf("save media receipt: tenant_id/receipt_id required")
+	}
+	raw, err := json.Marshal(r)
+	if err != nil {
+		return fmt.Errorf("save media receipt: marshal: %w", err)
+	}
+	var objectRef, mediaKind any
+	if r.ObjectRef != "" {
+		objectRef = r.ObjectRef
+	}
+	if r.MediaKind != "" {
+		mediaKind = r.MediaKind
+	}
+	_, err = database.ExecContext(ctx, `
+		INSERT INTO media_receipts (tenant_id, receipt_id, object_ref, media_kind, receipt_json)
+		VALUES ($1, $2, $3, $4, $5)
+		ON CONFLICT (tenant_id, receipt_id) DO UPDATE SET
+			object_ref = EXCLUDED.object_ref,
+			media_kind = EXCLUDED.media_kind,
+			receipt_json = EXCLUDED.receipt_json,
+			created_at = now()`,
+		tenantID, r.ReceiptID, objectRef, mediaKind, raw)
+	if err != nil {
+		return fmt.Errorf("save media receipt: %w", err)
+	}
+	return nil
+}
+
+// ListMediaReceiptsForReconcile 返回租户媒体收据及对应清单（供前端 reconcile 对账）。
+// 按 created_at 倒序；每行带 receipt 原始对象 + 对应 manifest 原始对象（无则 nil）。
+type ReceiptReconcileRow struct {
+	Receipt  *model.MediaReceipt `json:"receipt"`
+	Manifest *model.MediaManifest `json:"manifest"` // 可为 nil（收据引用了对象但无清单）
+}
+
+func ListMediaReceiptsForReconcile(ctx context.Context, database *sql.DB, tenantID string, limit int) ([]ReceiptReconcileRow, error) {
+	if tenantID == "" {
+		return nil, fmt.Errorf("list media receipts: tenant_id required")
+	}
+	if limit <= 0 || limit > 500 {
+		limit = 50
+	}
+	rows, err := database.QueryContext(ctx, `
+		SELECT r.receipt_json::text, m.manifest_json::text
+		FROM media_receipts r
+		LEFT JOIN media_manifests m ON m.tenant_id = r.tenant_id AND m.object_ref = r.object_ref
+		WHERE r.tenant_id = $1
+		ORDER BY r.created_at DESC
+		LIMIT $2`, tenantID, limit)
+	if err != nil {
+		return nil, fmt.Errorf("list media receipts: %w", err)
+	}
+	defer rows.Close()
+
+	var out []ReceiptReconcileRow
+	for rows.Next() {
+		var rRaw, mRaw sql.NullString
+		if err := rows.Scan(&rRaw, &mRaw); err != nil {
+			return nil, fmt.Errorf("list media receipts scan: %w", err)
+		}
+		var row ReceiptReconcileRow
+		if rRaw.Valid {
+			row.Receipt = &model.MediaReceipt{}
+			if err := json.Unmarshal([]byte(rRaw.String), row.Receipt); err != nil {
+				return nil, fmt.Errorf("list media receipts unmarshal receipt: %w", err)
+			}
+		}
+		if mRaw.Valid && mRaw.String != "" {
+			row.Manifest = &model.MediaManifest{}
+			if err := json.Unmarshal([]byte(mRaw.String), row.Manifest); err != nil {
+				return nil, fmt.Errorf("list media receipts unmarshal manifest: %w", err)
+			}
+		}
+		out = append(out, row)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("list media receipts rows: %w", err)
+	}
+	return out, nil
+}

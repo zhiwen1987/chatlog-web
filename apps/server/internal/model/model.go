@@ -101,3 +101,42 @@ type SourceShard struct {
 	LastSeenAt        time.Time
 	CreatedAt         time.Time
 }
+// MediaOrigin 媒体来源（media-manifest 协议 origin 对象）。
+type MediaOrigin struct {
+	Kind              string `json:"kind"`
+	Source            string `json:"source"`
+	SourceMessageRef  string `json:"source_message_ref"`
+}
+
+// MediaManifest 媒体清单（R42.7，对齐 packages/protocol/media-manifest.json）。
+type MediaManifest struct {
+	ManifestID     string      `json:"manifest_id"`
+	CatalogVersion int         `json:"catalog_version"`
+	TenantID       string      `json:"tenant_id"`
+	DeploymentID   string      `json:"deployment_id"`
+	ObjectRef      string      `json:"object_ref"`
+	MediaType      string      `json:"media_type"`
+	Origin         MediaOrigin `json:"origin"`
+	BytesRef       string      `json:"bytes_ref"`
+	SHA256         string      `json:"sha256"`
+	SizeBytes      int64       `json:"size_bytes"`
+	Seq            string      `json:"seq"`
+	CreatedAt      string      `json:"created_at"`
+	State          string      `json:"state"`
+	Replaces       string      `json:"replaces,omitempty"`
+}
+
+// MediaReceipt 媒体收据（R42.7，对齐 packages/protocol/media-receipt.json）。
+type MediaReceipt struct {
+	ReceiptID        string `json:"receipt_id"`
+	CatalogVersion   int    `json:"catalog_version"`
+	TenantID         string `json:"tenant_id"`
+	DeploymentID     string `json:"deployment_id"`
+	Source           string `json:"source"`
+	SourceMessageRef string `json:"source_message_ref"`
+	Seq              string `json:"seq"`
+	CommittedAt      string `json:"committed_at"`
+	BackupSet        string `json:"backup_set"`
+	ObjectRef        string `json:"object_ref,omitempty"`
+	MediaKind        string `json:"media_kind,omitempty"`
+}
