@@ -23,6 +23,13 @@
 验证：node 全量 79/79、6 个 Python 校验器 + A14 全绿、vue build 通过。
 未做：跨层 Go/Rust 实现（无工具链、主工作树有用户未提交内容）、JWS 签名语义校验。
 
+### 4.3.1 补 · A14 检查范围扩展（W-B 槽文档同步）
+
+补 A14 复核缺口：a14_contract_doc_check 新增 source-contract/profile-schema 两组关键词检查，
+并在架构与数据流/模块与数据所有权/二次开发指南补字段级引用（cursor.watermark 单调 seq 十进制字符串回放、
+derived.unique_source 必须 false、画像是可重建派生非唯一数据源）。纯文档+脚本扩展，
+不碰 packages schema、apps 代码与 router。
+
 
 ## 4.3 · 2026-09-29
 

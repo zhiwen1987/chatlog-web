@@ -28,11 +28,14 @@ CONTRACT_DOC_KEYWORDS = {
     "packages/contracts/data-ownership.json": ["十进制字符串", "tenant", "保留期限", "owner"],
     "packages/protocol/media-manifest.json": ["object_ref", "sha256", "bytes_ref", "quarantined"],
     "packages/protocol/media-receipt.json": ["耐久", "receipt", "backup_set", "不假"],
+    "packages/source-contract/source-adapter.json": ["watermark", "十进制字符串", "回放推进", "不假"],
+    "packages/profile-schema/profile-schema.json": ["derived", "unique_source", "可重建派生", "唯一数据源"],
 }
 
 DOC_FILES = [
     "docs/architecture/架构与数据流.md",
     "docs/architecture/模块与数据所有权.md",
+    "docs/architecture/二次开发指南.md",
     "docs/operations/备份恢复与应急.md",
 ]
 
