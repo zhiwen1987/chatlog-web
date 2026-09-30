@@ -13,7 +13,30 @@
       </div>
     </div>
 
-    <h2>许可 claims v2</h2>
+    <h2>许可状态（服务端实时）</h2>
+    <div class="card" :class="serverLicense.present ? 'ok' : 'warn'">
+      <template v-if="serverLicense.ready">
+        <strong>{{ serverLicense.present ? '已授权' : '未授权 / 无许可 claims' }}</strong>
+        <span v-if="serverLicense.present">
+          licensee={{ serverLicense.licensee || '-' }} · deployment={{ serverLicense.deployment || '-' }}
+        </span>
+        <span v-else class="muted">服务端判定无有效 claims（默认拒绝）</span>
+        <span class="muted">checked={{ serverLicense.checked }}</span>
+        <div v-if="serverLicense.features" class="feature-list">
+          <span v-for="(d, k) in serverLicense.features" :key="k" class="feature-pill" :class="d.allowed ? 'ok' : 'warn'">
+            {{ k }}={{ d.allowed ? '允许' : '拒绝' }}<small v-if="d.missing && d.missing.length">(缺 {{ d.missing.join(', ') }})</small>
+          </span>
+        </div>
+      </template>
+      <template v-else>
+        <strong class="muted">服务端许可状态未接入</strong>
+        <span v-if="serverLicense.error" class="error-text">{{ serverLicense.error }}</span>
+        <span v-else class="muted">Enterprise 模式未登录或无服务端返回，仅显示本地演示对照</span>
+      </template>
+    </div>
+
+    <h2>许可 claims v2（本地演示对照）</h2>
+    <p class="muted">以下为合成演示数据（W02b 消费工具展示），不替代服务端判定。</p>
     <div class="card-grid">
       <div v-for="g in grants" :key="g.grantId" class="card" :class="g.usable ? 'ok' : 'warn'">
         <strong>{{ g.featureKey }}</strong>
@@ -34,9 +57,21 @@
 <script>
 import { ref, computed } from 'vue'
 import { renderReport, renderClaims, reconcile } from '@/lib/contracts'
+import enterprise from '@/api/enterprise'
 export default {
   name: 'ContractsView',
   setup() {
+    // 服务端实时许可状态：Enterprise 模式且已登录才拉取；失败/未接入显式展示，不冒充成功。
+    const serverLicense = ref({ ready: false, present: false, error: '', checked: '', features: null })
+    if (enterprise.isEnterpriseMode() && enterprise.getEnterpriseToken()) {
+      enterprise.getLicenseStatus()
+        .then((data) => {
+          serverLicense.value = { ready: true, present: !!data?.present, licensee: data?.licensee, deployment: data?.deployment, checked: data?.checked, features: data?.features }
+        })
+        .catch((e) => {
+          serverLicense.value = { ready: false, present: false, error: e.message || String(e) }
+        })
+    }
     // 合成展示数据：真实运行时由服务端下发的 integrity-report/license-claims/manifest 填充
     const report = ref({
       counts: { total_discovered: 100, in_scope: 80, verified: 50, pending: 20, excluded: 8, source_missing: 2 },
@@ -84,7 +119,7 @@ export default {
     const reconcileOk = rec.ok
     const reconcileErrors = rec.errors
 
-    return { trustable, countErrorText, verified, inScope, outOfScope, total, completenessText, grants, reconcileOk, reconcileErrors }
+    return { trustable, countErrorText, verified, inScope, outOfScope, total, completenessText, serverLicense, grants, reconcileOk, reconcileErrors }
   },
 }
 </script>
@@ -97,4 +132,9 @@ export default {
 .error-text { color: #c62828; }
 .muted { color: #666; font-size: 0.85rem; }
 code { background: #f0f0f0; padding: 0 0.25rem; border-radius: 3px; }
+.feature-list { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.25rem; }
+.feature-pill { border: 1px solid #ddd; border-radius: 12px; padding: 0.1rem 0.5rem; font-size: 0.8rem; }
+.feature-pill small { display: block; color: #666; }
+.feature-pill.ok { border-color: #2e7d32; }
+.feature-pill.warn { border-color: #b26a00; }
 </style>
