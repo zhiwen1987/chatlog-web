@@ -35,14 +35,25 @@ func main() {
 	log.Println("migrations applied")
 
 	// 加载部署许可 claims（R42.8）。失败不崩溃：nil=默认拒绝，记录原因。
+	// 配置了 CHATLOG_LICENSE_VERIFY_KEY 走 JWS 验签（防篡改/伪造），否则保持直接解析兼容现状。
 	var license *model.Claims
 	func() {
 		lctx, lcancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer lcancel()
-		loaded, lerr := db.LoadLicenseClaims(lctx, conn, cfg.DeploymentID)
-		if lerr != nil {
-			log.Printf("license claims load failed (default deny): %v", lerr)
-			return
+		var loaded *model.Claims
+		var lerr error
+		if len(cfg.LicenseVerifyKey) > 0 {
+			loaded, lerr = db.LoadLicenseClaimsVerified(lctx, conn, cfg.DeploymentID, cfg.LicenseVerifyKey, cfg.LicenseExpectedAud)
+			if lerr != nil {
+				log.Printf("license claims verify failed (default deny): %v", lerr)
+				return
+			}
+		} else {
+			loaded, lerr = db.LoadLicenseClaims(lctx, conn, cfg.DeploymentID)
+			if lerr != nil {
+				log.Printf("license claims load failed (default deny): %v", lerr)
+				return
+			}
 		}
 		license = loaded
 	}()

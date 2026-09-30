@@ -60,7 +60,8 @@ func Migrate(ctx context.Context, db *sql.DB) error {
 			return fmt.Errorf("apply migration %s: %w", name, err)
 		}
 		if _, err := tx.ExecContext(ctx,
-			`INSERT INTO schema_migrations(version) VALUES ($1)`, name); err != nil {
+			`INSERT INTO schema_migrations(version) VALUES ($1)
+			 ON CONFLICT (version) DO NOTHING`, name); err != nil {
 			tx.Rollback()
 			return err
 		}

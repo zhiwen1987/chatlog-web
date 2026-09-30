@@ -5,10 +5,12 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
+	"github.com/zhiwen1987/chatlog-web/apps/server/internal/auth"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/model"
 )
 
@@ -53,6 +55,34 @@ func LoadLicenseClaims(ctx context.Context, database *sql.DB, deploymentID strin
 		return nil, fmt.Errorf("unmarshal license claims: %w", err)
 	}
 	return &c, nil
+}
+
+// LoadLicenseClaimsVerified 加载并 JWS 验签部署的许可 claims（R42.8 签名要求）。
+// 读取 license_claims 表最新行（claims_jws 列），用 verificationKey 验签；验签失败/篡改/错钥/过期
+// 返回错误（默认拒绝，不落入部分解析状态）。未找到返回 (nil, nil)。
+// claims_jws 为空（未签发）也返回错误：配置了验签密钥说明要求签名，缺签名按拒绝处理。
+func LoadLicenseClaimsVerified(ctx context.Context, database *sql.DB, deploymentID string, verificationKey []byte, expectedAud string) (*model.Claims, error) {
+	row := database.QueryRowContext(ctx, `
+		SELECT claims_jws
+		FROM license_claims
+		WHERE deployment_id = $1
+		ORDER BY license_revision DESC
+		LIMIT 1`, deploymentID)
+	var raw string
+	if err := row.Scan(&raw); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("load license claims: %w", err)
+	}
+	if strings.TrimSpace(raw) == "" {
+		return nil, fmt.Errorf("verify license claims: claims_jws empty (unsigned claims not accepted when verify key configured)")
+	}
+	c, err := auth.VerifyClaimsJWS(verificationKey, raw, expectedAud)
+	if err != nil {
+		return nil, fmt.Errorf("verify license claims: %w", err)
+	}
+	return c, nil
 }
 
 // UpsertDevice 注册/更新设备（R42.7 设备登记）。
