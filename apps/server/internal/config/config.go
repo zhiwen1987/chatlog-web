@@ -12,6 +12,7 @@ type Config struct {
 	JWTSecret       string
 	TokenTTLMinutes int
 	AuditEnabled    bool
+	DeploymentID    string
 }
 
 // Load 从环境变量读取配置。
@@ -22,6 +23,7 @@ func Load() Config {
 		JWTSecret:       getEnv("CHATLOG_JWT_SECRET", "dev-secret-change-me"),
 		TokenTTLMinutes: getEnvInt("CHATLOG_TOKEN_TTL_MINUTES", 60*24*7),
 		AuditEnabled:    getEnvBool("CHATLOG_AUDIT_ENABLED", true),
+		DeploymentID:    getEnv("CHATLOG_DEPLOYMENT_ID", "dev"),
 	}
 }
 

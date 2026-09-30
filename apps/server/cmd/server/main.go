@@ -14,6 +14,7 @@ import (
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/db"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/handler"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/migration"
+	"github.com/zhiwen1987/chatlog-web/apps/server/internal/model"
 )
 
 func main() {
@@ -33,10 +34,27 @@ func main() {
 	}
 	log.Println("migrations applied")
 
+	// 加载部署许可 claims（R42.8）。失败不崩溃：nil=默认拒绝，记录原因。
+	var license *model.Claims
+	func() {
+		lctx, lcancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer lcancel()
+		loaded, lerr := db.LoadLicenseClaims(lctx, conn, cfg.DeploymentID)
+		if lerr != nil {
+			log.Printf("license claims load failed (default deny): %v", lerr)
+			return
+		}
+		license = loaded
+	}()
+	if license != nil {
+		log.Printf("license claims loaded for deployment %s (revision %d)", cfg.DeploymentID, license.LicenseRevision)
+	}
+
 	srv := handler.New(handler.Deps{
 		DB:          conn,
 		JWTSecret:   cfg.JWTSecret,
 		TokenTTLMin: cfg.TokenTTLMinutes,
+		License:     license,
 	})
 
 	httpServer := &http.Server{
