@@ -69,3 +69,9 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - lint 0 errors、90 node 测试 PASS、vue build OK
 - 在线判定：last_seen_at 距今 < 5 分钟
 - 运行中容器仍未动；下一步服务端镜像重建需用户授权
+
+## W31 桌面心跳（2026-09-30 19:55，main e83225e）
+- 发现本机 Rust 工具链可用（rustc 1.98.1）——纠正此前"无 rust"过时记录
+- desktop-client heartbeat.rs：async heartbeat + build_heartbeat_url + 2 单测（lib 2/2 PASS）
+- Cargo.toml 声明 reqwest；Cargo.lock 首次提交；tauri icon 补全图标集（修骨架缺图标）
+- cargo check OK；全量 cargo test 因 Tauri 链接极慢未跑（--lib 隔离已验心跳）
