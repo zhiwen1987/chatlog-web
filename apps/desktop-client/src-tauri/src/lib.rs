@@ -1,5 +1,8 @@
 // Desktop client 库入口：创建 Tauri 应用。
 // 骨架阶段无自定义 command；Phase 5 起在此挂载 Rust Native Core / SourceAdapter。
+
+pub mod heartbeat;
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
