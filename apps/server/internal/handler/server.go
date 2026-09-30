@@ -85,6 +85,8 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.writeLicense(w, r)
 	case path == "/api/v1/integrity/report":
 		s.integrityReport(w, r)
+	case path == "/api/v1/ingest/messages" && r.Method == http.MethodPost:
+		s.ingestMessages(w, r)
 	case path == "/api/v1/media/manifests" && r.Method == http.MethodPost:
 		s.saveMediaManifest(w, r)
 	case path == "/api/v1/media/receipts" && r.Method == http.MethodPost:

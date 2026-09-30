@@ -286,3 +286,55 @@ func ListMediaReceiptsForReconcile(ctx context.Context, database *sql.DB, tenant
 	}
 	return out, nil
 }
+
+// IngestMessage 数据链接入单条消息（R42 数据链 ingestion，幂等）。
+// 流水线：source_account upsert → conversation upsert → message upsert
+// （按 tenant_id+upstream_message_id 幂等，重复上报不重复插入）。
+// 返回 (accepted, duplicated)：accepted=新插入，duplicated=已存在跳过。
+// 注意：upstream_message_id 为空时不做幂等（各为独立行，ACK 仍耐久提交后发）。
+func IngestMessage(ctx context.Context, database *sql.DB, tenantID string, m *model.IngestMessage) (int, int, error) {
+	if tenantID == "" || m == nil || m.UpstreamMessageID == "" || m.ConversationRef == "" {
+		return 0, 0, fmt.Errorf("ingest message: tenant_id/upstream_message_id/conversation_ref required")
+	}
+	var srcID, convID string
+	// 1) source_account upsert（按 tenant+source_type+external_account_id）
+	if err := database.QueryRowContext(ctx, `
+		INSERT INTO source_accounts (tenant_id, source_type, external_account_id, display_name, status)
+		VALUES ($1, $2, $3, $4, 'active')
+		ON CONFLICT (tenant_id, source_type, external_account_id) DO UPDATE SET
+			display_name = EXCLUDED.display_name, updated_at = now()
+		RETURNING id`, tenantID, m.SourceType, m.SourceExternalID, m.SourceDisplayName).Scan(&srcID); err != nil {
+		return 0, 0, fmt.Errorf("ingest source_account: %w", err)
+	}
+	// 2) conversation upsert（按 tenant+source_account+external_conversation_id）
+	if err := database.QueryRowContext(ctx, `
+		INSERT INTO conversations (tenant_id, source_account_id, external_conversation_id, conversation_type, title, last_message_at)
+		VALUES ($1, $2, $3, $4, $5, now())
+		ON CONFLICT (tenant_id, source_account_id, external_conversation_id) DO UPDATE SET
+			title = COALESCE(EXCLUDED.title, conversations.title),
+			last_message_at = now(), updated_at = now()
+		RETURNING id`, tenantID, srcID, m.ConversationRef, m.ConversationType, m.ConversationTitle).Scan(&convID); err != nil {
+		return 0, 0, fmt.Errorf("ingest conversation: %w", err)
+	}
+	// 3) message upsert（按 tenant+upstream_message_id 幂等）
+	tag, err := database.ExecContext(ctx, `
+		INSERT INTO messages (tenant_id, source_account_id, conversation_id, sender_contact_id,
+			direction, message_type, sent_at, sent_at_ms, content_text, content_json, content_hash,
+			upstream_message_id, decode_status)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+		ON CONFLICT (tenant_id, upstream_message_id) WHERE upstream_message_id IS NOT NULL
+		DO NOTHING`,
+		tenantID, srcID, convID, nil, m.Direction, m.MessageType, m.SentAt, m.SentAtMs,
+		m.ContentText, m.ContentJSON, m.ContentHash, m.UpstreamMessageID, m.DecodeStatus)
+	if err != nil {
+		return 0, 0, fmt.Errorf("ingest message: %w", err)
+	}
+	n, err := tag.RowsAffected()
+	if err != nil {
+		return 0, 0, fmt.Errorf("ingest message rows: %w", err)
+	}
+	if n > 0 {
+		return 1, 0, nil
+	}
+	return 0, 1, nil
+}

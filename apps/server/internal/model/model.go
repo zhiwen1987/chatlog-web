@@ -140,3 +140,23 @@ type MediaReceipt struct {
 	ObjectRef        string `json:"object_ref,omitempty"`
 	MediaKind        string `json:"media_kind,omitempty"`
 }
+
+// IngestMessage 数据链接入消息（R42 ingestion 入参）。
+// 对齐 messages 表字段 + 来源/会话引用；方向/类型/解码状态用枚举（与 messages CHECK 一致）。
+type IngestMessage struct {
+	UpstreamMessageID string `json:"upstream_message_id"`
+	SourceType        string `json:"source_type"`         // chatlog_http/plaintext_wechat_sqlite/...（对齐 source_accounts.source_type）
+	SourceExternalID  string `json:"source_external_id"`
+	SourceDisplayName string `json:"source_display_name"`
+	ConversationRef   string `json:"conversation_ref"`   // external_conversation_id
+	ConversationType  string `json:"conversation_type"`  // private/group/system
+	ConversationTitle string `json:"conversation_title,omitempty"`
+	Direction         string `json:"direction"`          // incoming/outgoing/unknown
+	MessageType       string `json:"message_type"`       // text/image/video/voice/file/emoji/system/link/quote/unknown
+	SentAt            any    `json:"sent_at,omitempty"`  // RFC3339 或 null
+	SentAtMs          *int64 `json:"sent_at_ms,omitempty"`
+	ContentText       string `json:"content_text,omitempty"`
+	ContentJSON       any    `json:"content_json,omitempty"`
+	ContentHash       string `json:"content_hash,omitempty"`
+	DecodeStatus      string `json:"decode_status"`      // ok/partial/failed/encrypted
+}

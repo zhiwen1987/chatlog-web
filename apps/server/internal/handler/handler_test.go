@@ -15,9 +15,10 @@ import (
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/db"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/handler"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/migration"
+	"github.com/zhiwen1987/chatlog-web/apps/server/internal/model"
 )
 
-func setupServer(t *testing.T) *httptest.Server {
+func setupServer(t *testing.T, license ...*model.Claims) *httptest.Server {
 	t.Helper()
 	dsn := os.Getenv("TEST_DATABASE_URL_HANDLER")
 	if dsn == "" {
@@ -31,10 +32,15 @@ func setupServer(t *testing.T) *httptest.Server {
 	if err := migration.Migrate(context.Background(), conn); err != nil {
 		t.Fatalf("migrate: %v", err)
 	}
+	var lic *model.Claims
+	if len(license) > 0 {
+		lic = license[0]
+	}
 	srv := handler.New(handler.Deps{
 		DB:          conn,
 		JWTSecret:   "test-secret",
 		TokenTTLMin: 60,
+		License:     lic,
 	})
 	ts := httptest.NewServer(srv.Routes())
 	t.Cleanup(ts.Close)
