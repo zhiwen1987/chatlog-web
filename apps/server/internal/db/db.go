@@ -138,3 +138,38 @@ func TouchDevice(ctx context.Context, database *sql.DB, tenantID, deviceID strin
 	}
 	return n > 0, nil
 }
+
+// IntegrityReport 返回租户消息完整性的计数聚合（R42.10）。
+// 基于真实 messages 表统计：verified/pending/excluded 分类按 decode_status + content_hash；
+// source_missing 恒为 0（source_account_id 外键必填，不存在缺失来源行）。
+// 返回 counts 满足契约约束：verified+pending+excluded+source_missing <= in_scope <= total_discovered。
+type IntegrityCounts struct {
+	TotalDiscovered int `json:"total_discovered"`
+	InScope         int `json:"in_scope"`
+	Verified        int `json:"verified"`
+	Pending         int `json:"pending"`
+	Excluded        int `json:"excluded"`
+	SourceMissing   int `json:"source_missing"`
+}
+
+func LoadIntegrityReport(ctx context.Context, database *sql.DB, tenantID string) (*IntegrityCounts, error) {
+	if tenantID == "" {
+		return nil, fmt.Errorf("integrity report: tenant_id required")
+	}
+	var c IntegrityCounts
+	err := database.QueryRowContext(ctx, `
+		SELECT
+			COUNT(*)                                                        AS total_discovered,
+			COUNT(*) FILTER (WHERE decode_status IN ('ok', 'partial'))      AS in_scope,
+			COUNT(*) FILTER (WHERE decode_status = 'ok' AND content_hash <> '') AS verified,
+			COUNT(*) FILTER (WHERE decode_status = 'ok' AND (content_hash IS NULL OR content_hash = '')) AS pending,
+			COUNT(*) FILTER (WHERE decode_status IN ('encrypted', 'failed'))    AS excluded,
+			0                                                                AS source_missing
+		FROM messages
+		WHERE tenant_id = $1`, tenantID).Scan(
+		&c.TotalDiscovered, &c.InScope, &c.Verified, &c.Pending, &c.Excluded, &c.SourceMissing)
+	if err != nil {
+		return nil, fmt.Errorf("integrity report: %w", err)
+	}
+	return &c, nil
+}

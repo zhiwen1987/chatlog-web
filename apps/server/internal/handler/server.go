@@ -83,6 +83,8 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.licenseStatus(w, r)
 	case path == "/api/v1/license" && r.Method == http.MethodPost:
 		s.writeLicense(w, r)
+	case path == "/api/v1/integrity/report":
+		s.integrityReport(w, r)
 	default:
 		http.NotFound(w, r)
 	}
