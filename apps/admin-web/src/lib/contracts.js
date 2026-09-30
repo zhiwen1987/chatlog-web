@@ -4,11 +4,10 @@
 // 不复制逻辑：本文件只 re-export + 分发，逻辑仍各自封装在对应模块。
 // 纯函数、无副作用。
 
-import { manifestErrors, receiptErrors, reconcile } from './media.js';
-import { countErrors, statusLabel, renderReport } from './integrity.js';
-import { grantActive, dependencyCheck, renderClaims } from './license.js';
-import { decimalStringError, checkDecimalFields, timeUnknownError, ownerReport } from './ownership.js';
-import { sourceErrors, capabilitiesReport, syncPlan } from './source.js';
+// 仅本地 import 分发真正用到的函数；其余由下方 export from 直接 re-export。
+import { manifestErrors, receiptErrors } from './media.js';
+import { countErrors } from './integrity.js';
+import { sourceErrors } from './source.js';
 
 export {
   // integrity-report（R42.10）
@@ -37,7 +36,7 @@ export {
 
 // 按类型分发到对应校验函数；返回 { ok, errors }。
 // 未知类型拒绝，不静默通过。
-export function validateContract(type, obj, ...rest) {
+export function validateContract(type, obj) {
   let errs;
   switch (type) {
     case 'integrity-report':

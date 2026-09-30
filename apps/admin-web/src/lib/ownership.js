@@ -7,7 +7,6 @@
 // 纯函数、无副作用；只消费数据对象，不篡改。
 
 const DECIMAL_STR = /^\d+$/;
-const FIELD_KINDS = ['int64_id', 'bytes', 'monotonic_seq', 'revision'];
 
 // 十进制字符串表示校验：接受精确十进制字符串，拒绝浮点/负数/科学计数/非整数。
 // 返回 '' 或错误信息。
