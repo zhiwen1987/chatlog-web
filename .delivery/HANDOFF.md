@@ -19,10 +19,11 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 | 桌面心跳 W31 | Rust heartbeat | e83225e |
 | JWS 验签 W32 | SignClaims/VerifyClaimsJWS | 2854700 |
 | 验签接入+上线 W33 | 配置驱动验签+镜像重建+容器重启 | 07ddab6,903686f,b9ca5a2 |
+| 前端接真实status W34 | ContractsView 接 license/status+4 测试 | 510e573 |
 
-## 全量验证证据（2026-09-30 22:15 终检）
+## 全量验证证据（2026-09-30 22:55 终检）
 - Go 全量真实 PG（chatlog_test）：auth/config/db/handler/migration/model 全 ok
-- node：90/90 PASS
+- node：94/94 PASS（含 W34 enterprise 4 新测试）
 - Python：verify_contract/protocol/feature_catalog + a14 全 OK
 - admin-web：lint 0 errors（14 存量 warnings）+ vue build DONE
 - desktop：cargo test 2/2 PASS
@@ -32,11 +33,11 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - 正式库 license claims **未签名**；运行容器未配 `CHATLOG_LICENSE_VERIFY_KEY` → 走直接解析。
   配置密钥即启用 JWS 验签（届时未签名 claims 默认拒绝，属预期强约束）
 - 发证/真实签名签发属发行方域（需独立 Issuer 私钥，不进入产品/源码/日志）
-- 前端 ContractsView 消费真实 status：需改 api 层（基线已提交，现可做但未做）
+- 前端 ContractsView 已接入真实 status（W34，510e573）；演示/未登录态仍展示本地合成 claims 并标注"演示对照"
 - admin-web 14 条 lint warnings（存量，非本次引入）
 
 ## 下一步（按优先级）
-1. 前端 ContractsView 接入真实 license status（api 层改造）
+1. ✅ 前端 ContractsView 接入真实 license status（已完成 W34，510e573）
 2. 如需强验签：发行方签发 JWS → 写入 claims_jws → 配置 CHATLOG_LICENSE_VERIFY_KEY
 3. 生产发布验收（需干净环境按说明重做安装/升级；真实 PG/TB/发证验收）
 4. 三槽并行若恢复：worktree 隔离已解锁（用户 63 处未提交已提交基线）
