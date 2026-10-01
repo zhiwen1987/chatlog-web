@@ -52,7 +52,7 @@ jobs:
         run: go vet ./...
 
       - name: Test
-        run: go test ./... -count=1
+        run: go test -p 1 ./... -count=1
 
   admin-web:
     name: Admin Web (test + lint + build)
