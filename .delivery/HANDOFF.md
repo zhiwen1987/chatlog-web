@@ -1,14 +1,14 @@
 # 项目交接记录 — chatlog-web
 
 INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
-交接时间: 2026-09-30 22:20
-分支: main | HEAD: 21add7e | 工作树干净
+交接时间: 2026-10-01 08:45
+分支: main | HEAD: 1238a0e | 工作树干净
 
 ## 当前状态（已上线运行）
-- **运行中 chatlog-server(8080) 已换新镜像 deploy-server:latest(8e3adb)**，含 W24-W33 全部 license/device/heartbeat 端点
-- 正式库(chatlog)迁移已应用 001-006；license claims revision 9 已加载 + claims_jws 已签发（强验签启用）
+- **运行中 chatlog-server(8080) 已换新镜像 deploy-server:latest**，含 W24-W33 license/device/heartbeat + W35-W39 integrity/media/ingest + **W40 upload 到 minio**
+- 正式库(chatlog)迁移已应用 001-007；license claims revision 9 已加载 + claims_jws 已签发（强验签启用）
 - 新增 chatlog-admin-web(8081) 承载前端 dist + /api 反代（W37）
-- 旧镜像 id 4e9119 留存（回滚手段：`docker run --image 4e9119...` 或 compose 重建）
+- 媒体对象存储就绪：compose 内 minio:9000 bucket=chatlog-media；upload 端到端对象落盘已验证
 
 ## 已完成工作链（全部真实执行+证据在 workitems/）
 | 阶段 | 范围 | 提交 |
@@ -25,35 +25,37 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 | 前端上线 W37 | nginx 容器 serve dist+反代 | 7005716 |
 | 强验签 W38 | 签发 JWS+配置密钥+重建 server | c083098 |
 | 数据链接入 W39 | ingest 端点+授权门禁+幂等+迁移006 | 8cea27a |
+| 媒体上传 W40 | upload bytes 到 minio+迁移007+幂等 | 1238a0e |
 
-## 全量验证证据（2026-10-01 01:40 终检）
-- Go 全量真实 PG（chatlog_test）：auth/config/db/handler/migration/model 全 ok
-- node：102/102 PASS（W34-W36 +8 测试）
-- Python：verify_contract/protocol/feature_catalog + a14 全 OK
-- admin-web：lint 0 errors 0 warnings（14 存量已清理）+ vue build DONE
-- desktop：cargo test 2/2 PASS
-- 正式服务端到端：注册→设备→心跳→license status 全 PASS
+## 全量验证证据（2026-10-01 08:45 终检）
+- Go 全量真实 PG（chatlog_test）+ 真实 minio：auth/config/db/handler/migration/model/store 全 ok（含 upload 4 测试）
+- node：102/102 PASS
+- Python：verify_protocol_schemas / verify_feature_catalog / a14 全 OK（verify_contract_examples 需 requirements-doc-check 隔离环境）
+- admin-web：lint 0 errors 0 warnings + vue build DONE
+- desktop：cargo test --lib 2/2 PASS
+- 正式服务端到端：注册→upload 28B 文件→object_ref/sha256/size 正确，minio 对象落盘 + media_objects 登记
 
 ## 已知限制/未做（如实）
 - ✅ 强验签已启用：claims_jws 已签发（rev9），运行容器已配 `CHATLOG_LICENSE_VERIFY_KEY`+`CHATLOG_LICENSE_AUDIENCE`
   （密钥在 deploy/.env，gitignore 未入库；HS256 对称，RS256 需独立 Issuer 密钥对）
+- ✅ 媒体 upload bytes 级已上线：minio:9000 bucket=chatlog-media，迁移 007 已应用，端到端验证
 - 生产发布验收阻塞：需真实发行 manifest（TLS/OIDC/证书/域名）+ 发行方审批
 - 发证/撤销阻塞：无独立 Issuer 环境（授权中心文档禁止 DSH 代行）
 - 三槽并行未恢复：无 3 个可并行独立小项（条件未满足非资源限制）
 - 发证/真实签名签发属发行方域（需独立 Issuer 私钥，不进入产品/源码/日志）
 - 前端 ContractsView 已接入真实 status（W34，510e573）；演示/未登录态仍展示本地合成 claims 并标注"演示对照"
-- admin-web 14 条 lint warnings（存量，非本次引入）
+- upload 仅写路径：读/删/生命周期/对账由外部对象生命周期流程负责（非本工作项）
 
 ## 下一步（按优先级）
 1. ✅ 前端接入真实 license status（W34）、integrity/media（W35-W36）、前端上线（W37）
 2. ✅ 强验签启用（W38）
 3. ✅ 数据链接入端点（W39）
-4. 🔴 生产发布验收（需发行方 manifest + TLS/OIDC + 审批）
-5. 🔴 真实发证/撤销（需独立 Issuer 环境）
-6. 🔴 upload bytes 级（需 minio 对象存储生产集成）
+4. ✅ 媒体 upload bytes 级（W40，minio 集成，端到端验证）
+5. 🔴 生产发布验收（需发行方 manifest + TLS/OIDC + 审批）— 外部材料阻塞
+6. 🔴 真实发证/撤销（需独立 Issuer 环境）— 授权中心禁止 DSH 代行
 
 ## 安全/密钥
-- 未在本交接写入任何明文密钥/密码（数据库/签发私钥均不在文档）
-- 运行容器 DATABASE_URL 含密码（继承原 compose 环境，未改动）
-- 回滚：旧镜像 4e9119 可用；迁移 001-006 幂等（IF NOT EXISTS），可安全保留
+- 未在本交接写入任何明文密钥/密码（数据库/签发私钥/minio 均不在文档）
+- 运行容器 DATABASE_URL 含密码（继承原 compose 环境，未改动）；minio 凭据在 deploy/.env
+- 回滚：迁移 001-007 幂等（IF NOT EXISTS），可安全保留；compose 重建可回退镜像
 - 强验签密钥在 deploy/.env（gitignore）；如需轮换：重新签发 claims_jws + 更新 .env + 重建 server
