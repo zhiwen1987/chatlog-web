@@ -15,6 +15,7 @@ import (
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/handler"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/migration"
 	"github.com/zhiwen1987/chatlog-web/apps/server/internal/model"
+	"github.com/zhiwen1987/chatlog-web/apps/server/internal/store"
 )
 
 func main() {
@@ -70,6 +71,17 @@ func main() {
 		LicenseVerifyKey:    cfg.LicenseVerifyKey,
 		LicenseExpectedAud:  cfg.LicenseExpectedAud,
 	})
+
+	// 媒体对象存储：配置了 MINIO_ENDPOINT 才启用 upload 端点；否则 upload 返回 503（未接入）。
+	if cfg.MinioEndpoint != "" {
+		ms, err := store.NewMinioObjectStore(cfg.MinioEndpoint, cfg.MinioAccessKey, cfg.MinioSecretKey, cfg.MinioBucket, cfg.MinioUseSSL)
+		if err != nil {
+			log.Printf("media store init failed (upload disabled): %v", err)
+		} else {
+			srv.MediaStore = ms
+			log.Printf("media object store ready: %s bucket=%s", cfg.MinioEndpoint, cfg.MinioBucket)
+		}
+	}
 
 	httpServer := &http.Server{
 		Addr:              cfg.Addr,

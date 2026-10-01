@@ -19,6 +19,11 @@ import (
 )
 
 func setupServer(t *testing.T, license ...*model.Claims) *httptest.Server {
+	return setupServerStore(t, nil, license...)
+}
+
+// setupServerStore 与 setupServer 相同，额外注入 MediaObjectStore（upload 测试用）。
+func setupServerStore(t *testing.T, store handler.MediaObjectStore, license ...*model.Claims) *httptest.Server {
 	t.Helper()
 	dsn := os.Getenv("TEST_DATABASE_URL_HANDLER")
 	if dsn == "" {
@@ -41,6 +46,7 @@ func setupServer(t *testing.T, license ...*model.Claims) *httptest.Server {
 		JWTSecret:   "test-secret",
 		TokenTTLMin: 60,
 		License:     lic,
+		MediaStore:  store,
 	})
 	ts := httptest.NewServer(srv.Routes())
 	t.Cleanup(ts.Close)

@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
+	"io"
 	"net/http"
 	"strings"
 
@@ -21,8 +23,20 @@ type Deps struct {
 
 	// LicenseVerifyKey 可选：配置后 licenseStatus 走 JWS 验签实时查库；
 	// 未配置保持直接解析（兼容现状）。
-	LicenseVerifyKey    []byte
-	LicenseExpectedAud  string
+	LicenseVerifyKey   []byte
+	LicenseExpectedAud string
+
+	// MediaStore 可选：媒体对象存储（upload bytes 级，R42.7）。
+	// 未配置时 upload 端点返回 503（对象存储未接入）；配置后流式写对象并登记元数据。
+	MediaStore MediaObjectStore
+}
+
+// MediaObjectStore 媒体对象存储接口（写路径）。
+// 实现：internal/store.MinioObjectStore（minio-go）。
+// 接口隔离理由：upload 只依赖 PutObject 语义，便于测试注入 stub；真实实现唯一。
+type MediaObjectStore interface {
+	// PutObject 流式写入对象，返回 (objectRef 形如 s3://bucket/tenant/name, sha256, sizeBytes, err)。
+	PutObject(ctx context.Context, tenantID, mediaType string, r io.Reader) (string, string, int64, error)
 }
 
 // Server 组装所有 HTTP 路由。
@@ -93,6 +107,8 @@ func (s *Server) router(w http.ResponseWriter, r *http.Request) {
 		s.saveMediaReceipt(w, r)
 	case path == "/api/v1/media/receipts":
 		s.listMediaReceipts(w, r)
+	case path == "/api/v1/media/upload" && r.Method == http.MethodPost:
+		s.uploadMedia(w, r)
 	default:
 		http.NotFound(w, r)
 	}

@@ -20,6 +20,14 @@ type Config struct {
 	LicenseVerifyKey []byte
 	// LicenseExpectedAud 可选：验签要求的 audience（部署域绑定）。
 	LicenseExpectedAud string
+
+	// MinioEndpoint/MinioAccessKey/MinioSecretKey/MinioBucket 可选：媒体对象存储（upload bytes 级）。
+	// 配置 MINIO_ENDPOINT 后启用 upload 端点；未配置时端点返回 503（对象存储未接入）。
+	MinioEndpoint  string
+	MinioAccessKey string
+	MinioSecretKey string
+	MinioBucket    string
+	MinioUseSSL    bool
 }
 
 // Load 从环境变量读取配置。
@@ -38,6 +46,11 @@ func Load() Config {
 			c.LicenseVerifyKey = raw
 		}
 	}
+	c.MinioEndpoint = getEnv("MINIO_ENDPOINT", "")
+	c.MinioAccessKey = getEnv("MINIO_ACCESS_KEY", "")
+	c.MinioSecretKey = getEnv("MINIO_SECRET_KEY", "")
+	c.MinioBucket = getEnv("MINIO_BUCKET", "chatlog-media")
+	c.MinioUseSSL = getEnvBool("MINIO_USE_SSL", false)
 	return c
 }
 

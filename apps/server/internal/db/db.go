@@ -338,3 +338,30 @@ func IngestMessage(ctx context.Context, database *sql.DB, tenantID string, m *mo
 	}
 	return 0, 1, nil
 }
+
+// SaveMediaObject 登记已上传到对象存储的媒体对象元数据（R42.7 upload）。
+// 以 (tenant_id, sha256) 内容寻址幂等：重复上传同 sha256 返回既有 object_ref（true=已存在）。
+// bytes 在对象存储（minio），本表只登记元数据（AGENTS A06 对象/元数据分离）。
+func SaveMediaObject(ctx context.Context, database *sql.DB, tenantID, objectRef, sha256, mediaType string, sizeBytes int64) (string, bool, error) {
+	if tenantID == "" || objectRef == "" || sha256 == "" || mediaType == "" {
+		return "", false, fmt.Errorf("save media object: tenant_id/object_ref/sha256/media_type required")
+	}
+	var existing string
+	err := database.QueryRowContext(ctx, `
+		SELECT object_ref FROM media_objects
+		WHERE tenant_id = $1 AND sha256 = $2`, tenantID, sha256).Scan(&existing)
+	if err == nil {
+		return existing, true, nil
+	}
+	if err != sql.ErrNoRows {
+		return "", false, fmt.Errorf("save media object: query existing: %w", err)
+	}
+	_, err = database.ExecContext(ctx, `
+		INSERT INTO media_objects (tenant_id, object_ref, sha256, media_type, size_bytes)
+		VALUES ($1, $2, $3, $4, $5)
+		ON CONFLICT (tenant_id, sha256) DO NOTHING`, tenantID, objectRef, sha256, mediaType, sizeBytes)
+	if err != nil {
+		return "", false, fmt.Errorf("save media object: %w", err)
+	}
+	return objectRef, false, nil
+}

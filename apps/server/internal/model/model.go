@@ -141,6 +141,16 @@ type MediaReceipt struct {
 	MediaKind        string `json:"media_kind,omitempty"`
 }
 
+// MediaUploadResult 媒体对象上传结果（R42.7 upload bytes 级）。
+// object_ref 形如 "s3://<bucket>/<tenant>/<object_name>"（与 manifest.bytes_ref 同语义）。
+type MediaUploadResult struct {
+	ObjectRef  string `json:"object_ref"`
+	Bucket     string `json:"bucket"`
+	ObjectName string `json:"object_name"`
+	SHA256     string `json:"sha256"`
+	SizeBytes  int64  `json:"size_bytes"`
+}
+
 // IngestMessage 数据链接入消息（R42 ingestion 入参）。
 // 对齐 messages 表字段 + 来源/会话引用；方向/类型/解码状态用枚举（与 messages CHECK 一致）。
 type IngestMessage struct {
