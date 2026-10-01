@@ -33,6 +33,7 @@ jobs:
           - 9000:9000
         command: server /data --console-address ":9001"
         options: >-
+          --user "0:0"
           --health-cmd "wget -q -O - http://localhost:9000/minio/health/live || exit 1"
           --health-interval 5s
           --health-timeout 5s
