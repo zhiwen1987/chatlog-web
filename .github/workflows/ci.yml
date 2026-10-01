@@ -32,6 +32,11 @@ jobs:
         ports:
           - 9000:9000
         command: server /data --console-address ":9001"
+        options: >-
+          --health-cmd "wget -q -O - http://localhost:9000/minio/health/live || exit 1"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
     env:
       TEST_DATABASE_URL: postgres://chatlog:chatlog@localhost:5432/chatlog_test?sslmode=disable
       TEST_DATABASE_URL_HANDLER: postgres://chatlog:chatlog@localhost:5432/chatlog_test?sslmode=disable
