@@ -159,3 +159,11 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 - 但当前无 3 个可安全并行独立小项：剩余工作（upload bytes 级/生产验收/发证）均为大工程或阻塞项
 - A09 要求"真实独立任务 + 单写者"；未达并行条件，非资源限制
 - 已转最终收口（全量回归 + HANDOFF）
+
+## CI 门禁上线（2026-10-01 20:20，main dee226b，运行 36802685102 success）
+- 新增 .github/workflows/ci.yml（W41）：push/PR 到 main 触发，双 job
+- Go job：go vet + go test -p 1 ./...（services: postgres:16-alpine + alpine/minio:latest-release，TEST_* 全注入，含 upload 集成）
+- Admin job：npm ci + npm test + npm run lint + npm run build
+- 修复链（全部实测定位）：a909cde 初始 → 2906e72 minio 官方镜像名迁移 → bd2ab3c 跨包 PG 迁移并发竞态(-p 1) → cc53969 minio 冷启动健康检查 → dee226b minio 容器 root 写 /data
+- 唯一 annotation：Node 20 弃用警告（GitHub Node 24 runner 强制，不影响结果）
+- 仓库当前 PUBLIC；如需私有待用户确认后再改（CI 不受影响）

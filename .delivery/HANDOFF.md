@@ -1,8 +1,8 @@
 # 项目交接记录 — chatlog-web
 
 INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
-交接时间: 2026-10-01 08:45
-分支: main | HEAD: 1238a0e | 工作树干净
+交接时间: 2026-10-01 08:45（2026-10-01 20:20 收口更新）
+分支: main | HEAD: dee226b | 工作树干净 | 与 origin/main 同步
 
 ## 当前状态（已上线运行）
 - **运行中 chatlog-server(8080) 已换新镜像 deploy-server:latest**，含 W24-W33 license/device/heartbeat + W35-W39 integrity/media/ingest + **W40 upload 到 minio**
@@ -26,8 +26,15 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 | 强验签 W38 | 签发 JWS+配置密钥+重建 server | c083098 |
 | 数据链接入 W39 | ingest 端点+授权门禁+幂等+迁移006 | 8cea27a |
 | 媒体上传 W40 | upload bytes 到 minio+迁移007+幂等 | 1238a0e |
+| CI 门禁 W41 | .github/workflows/ci.yml：go vet+test(pg16+minio)/admin-web test+lint+build | a909cde..dee226b |
 
-## 全量验证证据（2026-10-01 08:45 终检）
+## CI 门禁（2026-10-01 上线，运行 36802685102 success）
+- Go job：`go vet` + `go test -p 1 ./...`（services: postgres:16-alpine + alpine/minio:latest-release，注入全部 TEST_* 环境变量，含 upload 集成测试）✅ 1m0s
+- Admin job：`npm ci` + `npm test` + `npm run lint` + `npm run build` ✅ 40s
+- 修复历程（全部实测定位）：a909cde 初始 → 2906e72 minio 镜像名迁移 → bd2ab3c 跨包 PG 迁移并发竞态(-p 1) → cc53969 minio 冷启动健康检查 → dee226b minio 容器 root 写 /data
+- 唯一 annotation：Node 20 弃用警告（GitHub 强制 Node 24 runner，不影响结果；后续可升 actions v5 消除）
+
+## 全量验证证据（2026-10-01 08:45 终检；CI 2026-10-01 20:2x 复验）
 - Go 全量真实 PG（chatlog_test）+ 真实 minio：auth/config/db/handler/migration/model/store 全 ok（含 upload 4 测试）
 - node：102/102 PASS
 - Python：verify_protocol_schemas / verify_feature_catalog / a14 全 OK（verify_contract_examples 需 requirements-doc-check 隔离环境）
