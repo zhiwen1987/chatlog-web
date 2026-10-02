@@ -1,8 +1,8 @@
 # 项目交接记录 — chatlog-web
 
 INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
-交接时间: 2026-10-01 08:45（2026-10-01 20:20 收口更新）
-分支: main | HEAD: dee226b | 工作树干净 | 与 origin/main 同步
+交接时间: 2026-10-01 08:45（2026-10-02 09:15 收口更新）
+分支: main | HEAD: 3c22ba2 | 工作树干净 | 与 origin/main 同步（closeout 已推送，CI 复验 36949852396 success）
 
 ## 当前状态（已上线运行）
 - **运行中 chatlog-server(8080) 已换新镜像 deploy-server:latest**，含 W24-W33 license/device/heartbeat + W35-W39 integrity/media/ingest + **W40 upload 到 minio**
