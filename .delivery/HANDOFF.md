@@ -2,7 +2,7 @@
 
 INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 交接时间: 2026-10-01 08:45（2026-10-02 09:15 收口更新）
-分支: main | HEAD: 3c22ba2 | 工作树干净 | 与 origin/main 同步（closeout 已推送，CI 复验 36949852396 success）
+分支: main | HEAD: 478a715 | 工作树干净 | 与 origin/main 同步（红线解除 + W42 状态更新已推送）
 
 ## 当前状态（已上线运行）
 - **运行中 chatlog-server(8080) 已换新镜像 deploy-server:latest**，含 W24-W33 license/device/heartbeat + W35-W39 integrity/media/ingest + **W40 upload 到 minio**
@@ -58,8 +58,11 @@ INSTRUCTION_REVISION: WCM-DELIVERY-V4.3
 2. ✅ 强验签启用（W38）
 3. ✅ 数据链接入端点（W39）
 4. ✅ 媒体 upload bytes 级（W40，minio 集成，端到端验证）
-5. 🔴 生产发布验收（需发行方 manifest + TLS/OIDC + 审批）— 外部材料阻塞
-6. 🔴 真实发证/撤销（需独立 Issuer 环境）— 授权中心禁止 DSH 代行
+5. ✅ CI 门禁 W41 + 全量回归 + 3 次推送复验 success
+6. ✅ 红线解除（W42 前置）：AGENTS A08 微信密钥提取改为"本人设备/本人授权/合法用途/经明确授权"可进行（478a715）
+7. ⏳ W42 桌面微信导出：红线已解除，**待用户本机登录微信产生真实 MSG.db 样本**（全容器核查无账号库，物理阻塞在用户侧）
+8. 🔴 生产发布验收（需发行方 manifest + TLS/OIDC + 审批）— 外部材料阻塞
+9. 🔴 真实发证/撤销（需独立 Issuer 环境）— 授权中心禁止 DSH 代行
 
 ## 安全/密钥
 - 未在本交接写入任何明文密钥/密码（数据库/签发私钥/minio 均不在文档）
